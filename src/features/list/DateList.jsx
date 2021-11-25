@@ -18,20 +18,20 @@ const DateList = () => {
     <div className="date-list-wrapper" id="date-list-wrapper">
       <div id="date-list">
         <h1>{month}月</h1>
-        <table>
-          <tbody>
-            <tr>
-              {days.map((o, i) => (
-                <td key={`date-list-1-${i}`}>{o.format("D")}</td>
-              ))}
-            </tr>
-            <tr>
-              {days.map((o, i) => (
-                <td key={`date-list-2-${i}`}>({jaWeekday[o.format("d")]})</td>
-              ))}
-            </tr>
-          </tbody>
-        </table>
+        <div className="flex-row">
+          {days.map((o, i) => (
+            <div className="grid-item" key={`date-list-1-${i}`}>
+              {o.format("D")}
+            </div>
+          ))}
+        </div>
+        <div className="flex-row">
+          {days.map((o, i) => (
+            <div className="grid-item" key={`date-list-2-${i}`}>
+              ({jaWeekday[o.format("d")]})
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

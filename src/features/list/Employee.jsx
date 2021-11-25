@@ -1,12 +1,12 @@
 const Employee = ({ bu, ka, no, rank, name }) => {
   return (
-    <tr>
-      <td>{bu}</td>
-      <td>{ka}</td>
-      <td>{no}</td>
-      <td>{rank}</td>
-      <td>{name}</td>
-    </tr>
+    <div className="flex-row">
+      <div className="employee-item bu">{bu}</div>
+      <div className="employee-item ka">{ka}</div>
+      <div className="employee-item no">{no}</div>
+      <div className="employee-item rank">{rank}</div>
+      <div className="employee-item name">{name}</div>
+    </div>
   );
 };
 

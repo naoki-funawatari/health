@@ -2,8 +2,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import employees from "@/db/master/employees.json";
-
-const jaWeekday = { 0: "日", 1: "月", 2: "火", 3: "水", 4: "木", 5: "金", 6: "土" };
+import conditions from "@/db/master/conditions.json";
 
 const CheckList = ({ syncScroll }) => {
   dayjs.extend(utc);
@@ -16,17 +15,19 @@ const CheckList = ({ syncScroll }) => {
 
   return (
     <div className="check-list-wrapper" onScroll={e => syncScroll(e)}>
-      <table>
-        <tbody>
-          {employees.map(o => (
-            <tr key={`check-list-${o.no}`}>
-              {days.map((o, i) => (
-                <td key={`check-list-${o.no}-${i}`}>({jaWeekday[o.format("d")]})</td>
-              ))}
-            </tr>
+      {employees.map(o => (
+        <div className="flex-row" key={`check-list-${o.no}`}>
+          {days.map((o, i) => (
+            <div className="grid-item" key={`check-list-${o.no}-${i}`}>
+              <select>
+                {conditions.map((o, p) => (
+                  <option key={`check-list-${o.no}-${p}`}>{o.name}</option>
+                ))}
+              </select>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      ))}
     </div>
   );
 };
