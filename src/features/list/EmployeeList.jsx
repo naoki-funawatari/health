@@ -3,13 +3,15 @@ import employees from "@/db/master/employees.json";
 
 const EmployeeList = () => {
   return (
-    <table>
-      <tbody>
-        {employees.map(o => (
-          <Employee {...{ ...o }} />
-        ))}
-      </tbody>
-    </table>
+    <div>
+      <table>
+        <tbody>
+          {employees.map(o => (
+            <Employee {...{ ...o }} />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
