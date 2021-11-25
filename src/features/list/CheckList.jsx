@@ -1,40 +1,34 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import employees from "@/db/master/employees.json";
 
 const jaWeekday = { 0: "日", 1: "月", 2: "火", 3: "水", 4: "木", 5: "金", 6: "土" };
 
-const DateList = () => {
+const CheckList = ({ syncScroll }) => {
   dayjs.extend(utc);
   dayjs.extend(timezone);
   dayjs.tz.setDefault("Asia/Tokyo");
-  const month = Number(dayjs().tz().endOf("month").format("M"));
   const startDate = dayjs().tz().startOf("month");
   const endDate = dayjs().tz().endOf("month");
   const endDay = Number(endDate.format("D"));
   const days = [...new Array(endDay).keys()].map((_, i) => startDate.add(i, "day"));
 
   return (
-    <div className="date-list-wrapper" id="date-list-wrapper">
-      <div id="date-list">
-        <h1>{month}月</h1>
-        <table>
-          <tbody>
-            <tr>
-              {days.map(o => (
-                <td>{o.format("D")}</td>
-              ))}
-            </tr>
+    <div className="check-list-wrapper" onScroll={e => syncScroll(e)}>
+      <table>
+        <tbody>
+          {employees.map(o => (
             <tr>
               {days.map(o => (
                 <td>({jaWeekday[o.format("d")]})</td>
               ))}
             </tr>
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default DateList;
+export default CheckList;
