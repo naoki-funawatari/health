@@ -21,13 +21,13 @@ const DateList = () => {
         <table>
           <tbody>
             <tr>
-              {days.map(o => (
-                <td>{o.format("D")}</td>
+              {days.map((o, i) => (
+                <td key={`date-list-1-${i}`}>{o.format("D")}</td>
               ))}
             </tr>
             <tr>
-              {days.map(o => (
-                <td>({jaWeekday[o.format("d")]})</td>
+              {days.map((o, i) => (
+                <td key={`date-list-2-${i}`}>({jaWeekday[o.format("d")]})</td>
               ))}
             </tr>
           </tbody>

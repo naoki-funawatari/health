@@ -8,7 +8,7 @@ const EmployeeList = () => {
         <table>
           <tbody>
             {employees.map(o => (
-              <Employee {...{ ...o }} />
+              <Employee key={`employee-list-${o.no}`} {...{ ...o }} />
             ))}
           </tbody>
         </table>

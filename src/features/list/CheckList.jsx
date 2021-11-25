@@ -19,9 +19,9 @@ const CheckList = ({ syncScroll }) => {
       <table>
         <tbody>
           {employees.map(o => (
-            <tr>
-              {days.map(o => (
-                <td>({jaWeekday[o.format("d")]})</td>
+            <tr key={`check-list-${o.no}`}>
+              {days.map((o, i) => (
+                <td key={`check-list-${o.no}-${i}`}>({jaWeekday[o.format("d")]})</td>
               ))}
             </tr>
           ))}
