@@ -1,5 +1,7 @@
+import EmployeeList from "@/features/list/EmployeeList";
+
 const App = () => {
-  return <div></div>;
+  return <EmployeeList />;
 };
 
 export default App;
