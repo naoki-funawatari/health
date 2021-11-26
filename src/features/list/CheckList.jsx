@@ -1,17 +1,9 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+import { useTaegetDate } from "@/hooks/hooks";
 import employees from "@/db/master/employees.json";
 import conditions from "@/db/master/conditions.json";
 
 const CheckList = ({ syncScroll }) => {
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-  dayjs.tz.setDefault("Asia/Tokyo");
-  const startDate = dayjs().tz().startOf("month");
-  const endDate = dayjs().tz().endOf("month");
-  const endDay = Number(endDate.format("D"));
-  const days = [...new Array(endDay).keys()].map((_, i) => startDate.add(i, "day"));
+  const { days } = useTaegetDate();
 
   return (
     <div className="check-list-wrapper" onScroll={e => syncScroll(e)}>
