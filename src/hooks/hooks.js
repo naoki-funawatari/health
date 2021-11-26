@@ -5,19 +5,21 @@ import timezone from "dayjs/plugin/timezone";
 import reports from "@/db/records/reports.json";
 
 const useTaegetDate = () => {
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-  dayjs.tz.setDefault("Asia/Tokyo");
+  return useMemo(() => {
+    dayjs.extend(utc);
+    dayjs.extend(timezone);
+    dayjs.tz.setDefault("Asia/Tokyo");
 
-  const tzDate = dayjs().tz();
-  const tzStartDate = tzDate.startOf("month");
-  const tzEndtDate = tzDate.endOf("month");
-  const year = Number(tzStartDate.format("YYYY"));
-  const month = Number(tzStartDate.format("M"));
-  const endDay = Number(tzEndtDate.format("D"));
-  const days = [...new Array(endDay).keys()].map((_, i) => tzStartDate.add(i, "day").clone());
+    const tzDate = dayjs().tz();
+    const tzStartDate = tzDate.startOf("month");
+    const tzEndtDate = tzDate.endOf("month");
+    const year = Number(tzStartDate.format("YYYY"));
+    const month = Number(tzStartDate.format("M"));
+    const endDay = Number(tzEndtDate.format("D"));
+    const days = [...new Array(endDay).keys()].map((_, i) => tzStartDate.add(i, "day").clone());
 
-  return { year, month, days };
+    return { year, month, days };
+  }, []);
 };
 
 const useFetchHealthData = (year, month) => {

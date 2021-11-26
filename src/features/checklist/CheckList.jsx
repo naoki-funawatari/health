@@ -1,38 +1,28 @@
-import { useTaegetDate, useFetchHealthData } from "@/hooks/hooks";
-import employees from "@/db/master/employees.json";
-import conditions from "@/db/master/conditions.json";
+import { useCallback } from "react";
+import Blank from "@/components/Blank";
+import MonthLabel from "@/features/checklist/MonthLabel";
+import DateList from "@/features/checklist/DateList";
+import EmployeeList from "@/features/checklist/EmployeeList";
+import Grid from "@/features/checklist/Grid";
+import { useTaegetDate } from "@/hooks/hooks";
 
-const CheckList = ({ syncScroll }) => {
+const CheckList = () => {
+  const syncScroll = useCallback(e => {
+    document.getElementById("employee-list-wrapper").scrollTop = e.target.scrollTop;
+    document.getElementById("date-list-wrapper").scrollLeft = e.target.scrollLeft;
+  }, []);
   const { year, month, days } = useTaegetDate();
-  const healthData = useFetchHealthData(year, month);
 
   return (
-    <div className="check-list-wrapper" onScroll={e => syncScroll(e)}>
-      {employees.map(employee => {
-        const personalData = healthData.filter(o => o.employee_id === employee.id);
-
-        return (
-          <div className="flex-row" key={`check-list-${employee.no}`}>
-            {days.map((day, i) => {
-              const dayData = personalData.find(o => o.date === day.format("YYYY/MM/DD"));
-
-              return (
-                <div className="grid-item" key={`check-list-${day.no}-${i}`}>
-                  <select defaultValue={dayData?.condition_id ?? 0}>
-                    {conditions.map((o, p) => (
-                      <option key={`check-list-${o.no}-${p}`} value={o.id}>
-                        {o.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+    <div className="checklist">
+      <Blank className="blank1" />
+      <MonthLabel {...{ month }} />
+      <DateList {...{ days }} />
+      <Blank className="blank2" />
+      <EmployeeList />
+      <Grid {...{ syncScroll, year, month, days }} />
+      <Blank className="blank3" />
     </div>
   );
 };
-
 export default CheckList;
