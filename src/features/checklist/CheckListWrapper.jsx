@@ -11,14 +11,14 @@ const CheckListWrapper = () => {
   }, []);
 
   return (
-    <>
+    <div className="checklist">
       <Blank className="blank1" />
       <DateList />
       <Blank className="blank2" />
       <EmployeeList />
       <CheckList {...{ syncScroll }} />
       <Blank className="blank3" />
-    </>
+    </div>
   );
 };
 export default CheckListWrapper;
