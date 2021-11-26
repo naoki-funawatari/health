@@ -1,4 +1,4 @@
-import Employee from "@/features/list/Employee";
+import Employee from "@/features/checklist/Employee";
 import employees from "@/db/master/employees.json";
 
 const EmployeeList = () => {
