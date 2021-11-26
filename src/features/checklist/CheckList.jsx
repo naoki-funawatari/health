@@ -15,13 +15,12 @@ const CheckList = () => {
 
   return (
     <div className="checklist">
-      <Blank className="blank1" />
       <MonthLabel {...{ month }} />
       <DateList {...{ days }} />
-      <Blank className="blank2" />
+      <Blank className="blank1" />
       <EmployeeList />
       <Grid {...{ syncScroll, year, month, days }} />
-      <Blank className="blank3" />
+      <Blank className="blank2" />
     </div>
   );
 };
