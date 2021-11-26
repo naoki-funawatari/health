@@ -1,0 +1,88 @@
+#root {
+  max-width: 95%;
+  max-height: 95%;
+  display: inline-grid;
+  grid-template-columns: auto 1fr 17px;
+  grid-template-rows: auto 1fr 17px;
+
+  .blank1 {
+    grid-row: 1/2;
+    grid-column: 1/2;
+  }
+
+  .date-list-wrapper {
+    grid-row: 1/2;
+    grid-column: 2/3;
+    overflow: hidden;
+  }
+
+  .blank2 {
+    grid-row: 3/-1;
+    grid-column: 1/2;
+  }
+
+  .employee-list-wrapper {
+    grid-row: 2/3;
+    grid-column: 1/2;
+    overflow: hidden;
+  }
+
+  .blank3 {
+    grid-row: 3/-1;
+    grid-column: 1/2;
+  }
+
+  .check-list-wrapper {
+    grid-row: 2/-1;
+    grid-column: 2/-1;
+    overflow: scroll;
+  }
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  min-height: 30px;
+  text-align: left;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-item {
+  min-width: 42px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.employee-item {
+  line-height: 30px;
+  padding: {
+    left: 5px;
+    right: 5px;
+  }
+
+  &.bu {
+    min-width: 170px;
+  }
+
+  &.ka {
+    min-width: 80px;
+  }
+
+  &.no {
+    min-width: 80px;
+  }
+
+  &.rank {
+    min-width: 110px;
+  }
+
+  &.name {
+    min-width: 135px;
+  }
+}
