@@ -1,25 +1,13 @@
-import { useCallback } from "react";
-import Blank from "@/features/list/Blank";
-import DateList from "@/features/list/DateList";
-import EmployeeList from "@/features/list/EmployeeList";
-import CheckList from "@/features/list/CheckList";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
+import Main from "@/components/Main";
 
-const App = () => {
-  const syncScroll = useCallback(e => {
-    document.getElementById("employee-list-wrapper").scrollTop = e.target.scrollTop;
-    document.getElementById("date-list-wrapper").scrollLeft = e.target.scrollLeft;
-  }, []);
-
-  return (
-    <>
-      <Blank className="blank1" />
-      <DateList />
-      <Blank className="blank2" />
-      <EmployeeList />
-      <CheckList {...{ syncScroll }} />
-      <Blank className="blank3" />
-    </>
-  );
-};
+const App = () => (
+  <>
+    <Header />
+    <Navigation />
+    <Main />
+  </>
+);
 
 export default App;

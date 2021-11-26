@@ -15,7 +15,6 @@ const CheckList = ({ syncScroll }) => {
           <div className="flex-row" key={`check-list-${employee.no}`}>
             {days.map((day, i) => {
               const dayData = personalData.find(o => o.date === day.format("YYYY/MM/DD"));
-              console.log(dayData);
 
               return (
                 <div className="grid-item" key={`check-list-${day.no}-${i}`}>
