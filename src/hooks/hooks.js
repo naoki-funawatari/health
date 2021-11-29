@@ -3,11 +3,7 @@ import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-
-const fetchReports = async () => {
-  const res = await fetch("http://localhost:3001/api/v1/reports");
-  return res.json();
-};
+import { fetchConditions, fetchEmployees, fetchReports } from "@/apis/apis";
 
 const useTaegetDate = () => {
   return useMemo(() => {
@@ -27,6 +23,12 @@ const useTaegetDate = () => {
   }, []);
 };
 
+const useConditions = () => useQuery("conditions", fetchConditions);
+
+const useEmployees = () => useQuery("employees", fetchEmployees);
+
+const useReports = () => useQuery("reports", fetchReports);
+
 const useFetchHealthData = (year, month) => {
   const reports = useQuery("reports", fetchReports);
   if (reports.isLoading) return [];
@@ -40,4 +42,4 @@ const useFetchHealthData = (year, month) => {
     .filter(o => Number(dayjs(o.date).tz().format("M")) === Number(month));
 };
 
-export { useTaegetDate, useFetchHealthData };
+export { useTaegetDate, useConditions, useEmployees, useReports, useFetchHealthData };

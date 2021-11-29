@@ -1,20 +1,9 @@
-import { useQuery } from "react-query";
-import { useFetchHealthData } from "@/hooks/hooks";
-
-const fetchEmployees = async () => {
-  const res = await fetch("http://localhost:3001/api/v1/employees");
-  return res.json();
-};
-
-const fetchConditions = async () => {
-  const res = await fetch("http://localhost:3001/api/v1/conditions");
-  return res.json();
-};
+import { useConditions, useEmployees, useFetchHealthData } from "@/hooks/hooks";
 
 const Grid = ({ syncScroll, year, month, days }) => {
   const healthData = useFetchHealthData(year, month);
-  const employees = useQuery("employees", fetchEmployees);
-  const conditions = useQuery("conditions", fetchConditions);
+  const conditions = useConditions();
+  const employees = useEmployees();
 
   if (employees.isLoading || conditions.isLoading) {
     console.log("isLoading");

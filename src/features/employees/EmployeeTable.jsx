@@ -1,13 +1,8 @@
-import { useQuery } from "react-query";
+import { useEmployees } from "@/hooks/hooks";
 import EmployeeRow from "@/features/employees/EmployeeRow";
 
-const fetchEmployees = async () => {
-  const res = await fetch("http://localhost:3001/api/v1/employees");
-  return res.json();
-};
-
 const EmployeeTable = () => {
-  const employees = useQuery("employees", fetchEmployees);
+  const employees = useEmployees();
 
   if (employees.isLoading) {
     console.log("isLoading");

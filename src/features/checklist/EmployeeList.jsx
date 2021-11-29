@@ -1,13 +1,8 @@
-import { useQuery } from "react-query";
+import { useEmployees } from "@/hooks/hooks";
 import Employee from "@/features/checklist/Employee";
 
-const fetchEmployees = async () => {
-  const res = await fetch("http://localhost:3001/api/v1/employees");
-  return res.json();
-};
-
 const EmployeeList = () => {
-  const employees = useQuery("employees", fetchEmployees);
+  const employees = useEmployees();
 
   if (employees.isLoading) {
     console.log("isLoading");
@@ -17,6 +12,8 @@ const EmployeeList = () => {
   if (employees.error) console.log("error");
 
   if (employees.isFetching) console.log("isFetching");
+
+  console.log(employees.data);
 
   return (
     <div className="employee-list-wrapper" id="employee-list-wrapper">
