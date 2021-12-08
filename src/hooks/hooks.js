@@ -1,8 +1,13 @@
 import { useMemo } from "react";
+import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import reports from "@/db/records/reports.json";
+
+const fetchReports = async () => {
+  const res = await fetch("http://localhost:3001/api/v1/reports");
+  return res.json();
+};
 
 const useTaegetDate = () => {
   return useMemo(() => {
@@ -23,15 +28,16 @@ const useTaegetDate = () => {
 };
 
 const useFetchHealthData = (year, month) => {
-  return useMemo(() => {
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-    dayjs.tz.setDefault("Asia/Tokyo");
+  const reports = useQuery("reports", fetchReports);
+  if (reports.isLoading) return [];
 
-    return reports
-      .filter(o => Number(dayjs(o.date).tz().format("YYYY")) === Number(year))
-      .filter(o => Number(dayjs(o.date).tz().format("M")) === Number(month));
-  }, [year, month]);
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.tz.setDefault("Asia/Tokyo");
+
+  return reports.data
+    .filter(o => Number(dayjs(o.date).tz().format("YYYY")) === Number(year))
+    .filter(o => Number(dayjs(o.date).tz().format("M")) === Number(month));
 };
 
 export { useTaegetDate, useFetchHealthData };
