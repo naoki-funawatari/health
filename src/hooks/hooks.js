@@ -29,17 +29,6 @@ const useEmployees = () => useQuery("employees", fetchEmployees);
 
 const useReports = () => useQuery("reports", fetchReports);
 
-const useFetchHealthData = (year, month) => {
-  const reports = useQuery("reports", fetchReports);
-  if (reports.isLoading) return [];
-
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-  dayjs.tz.setDefault("Asia/Tokyo");
-
-  return reports.data
-    .filter(o => Number(dayjs(o.date).tz().format("YYYY")) === Number(year))
-    .filter(o => Number(dayjs(o.date).tz().format("M")) === Number(month));
-};
+const useFetchHealthData = (year, month) => useQuery("reports", fetchReports(year, month));
 
 export { useTaegetDate, useConditions, useEmployees, useReports, useFetchHealthData };

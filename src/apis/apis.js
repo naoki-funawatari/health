@@ -10,8 +10,8 @@ const fetchEmployees = async () => {
   return res.json();
 };
 
-const fetchReports = async () => {
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports`;
+const fetchReports = (year, month) => async () => {
+  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?year=${year}&month=${month}`;
   console.log(url);
   const res = await fetch(url);
   return res.json();

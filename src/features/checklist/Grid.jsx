@@ -5,19 +5,20 @@ const Grid = ({ syncScroll, year, month, days }) => {
   const conditions = useConditions();
   const employees = useEmployees();
 
-  if (employees.isLoading || conditions.isLoading) {
+  if (healthData.isLoading || employees.isLoading || conditions.isLoading) {
     console.log("isLoading");
     return <h2>読み込み中...</h2>;
   }
 
-  if (employees.error || conditions.error) console.log("error");
+  if (healthData.error || employees.error || conditions.error) console.log("error");
 
-  if (employees.isFetching || conditions.isFetching) console.log("isFetching");
+  if (healthData.isFetching || employees.isFetching || conditions.isFetching)
+    console.log("isFetching");
 
   return (
     <div className="check-list-wrapper" onScroll={e => syncScroll(e)}>
       {employees.data.map(employee => {
-        const personalData = healthData.filter(o => o.employee_id === employee.id);
+        const personalData = healthData.data.filter(o => o.employee_id === employee.id);
 
         return (
           <div className="flex-row" key={`check-list-${employee.no}`}>
