@@ -18,7 +18,7 @@ const EmployeeList = () => {
   return (
     <div className="employee-list-wrapper" id="employee-list-wrapper">
       <div id="employee-list">
-        {employees.data.map(o => (
+        {employees.data?.map(o => (
           <Employee key={`employee-list-${o.no}`} {...{ ...o }} />
         ))}
       </div>

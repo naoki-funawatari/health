@@ -25,7 +25,7 @@ const EmployeeTable = () => {
         </tr>
       </thead>
       <tbody>
-        {employees.data.map(o => (
+        {employees.data?.map(o => (
           <EmployeeRow key={`employee-row-${o.no}`} {...{ ...o }} />
         ))}
       </tbody>

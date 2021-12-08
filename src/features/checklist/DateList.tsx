@@ -1,15 +1,29 @@
-const jaWeekday = { 0: "日", 1: "月", 2: "火", 3: "水", 4: "木", 5: "金", 6: "土" };
-const weekdayColor = {
-  0: "red",
-  1: "black",
-  2: "black",
-  3: "black",
-  4: "black",
-  5: "black",
-  6: "blue",
+import { Dayjs } from "dayjs";
+
+interface IObjectAccessor {
+  [key: string]: string;
+}
+
+const jaWeekday: IObjectAccessor = {
+  "0": "日",
+  "1": "月",
+  "2": "火",
+  "3": "水",
+  "4": "木",
+  "5": "金",
+  "6": "土",
+};
+const weekdayColor: IObjectAccessor = {
+  "0": "red",
+  "1": "black",
+  "2": "black",
+  "3": "black",
+  "4": "black",
+  "5": "black",
+  "6": "blue",
 };
 
-const DateList = ({ days }) => (
+const DateList = ({ days }: { days: Dayjs[] }) => (
   <div className="date-list-wrapper" id="date-list-wrapper">
     <div id="date-list">
       <div className="flex-row">

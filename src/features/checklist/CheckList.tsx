@@ -1,15 +1,22 @@
 import { useCallback } from "react";
+import { useTaegetDate } from "@/hooks/hooks";
 import Blank from "@/components/Blank";
 import MonthLabel from "@/features/checklist/MonthLabel";
 import DateList from "@/features/checklist/DateList";
 import EmployeeList from "@/features/checklist/EmployeeList";
 import Grid from "@/features/checklist/Grid";
-import { useTaegetDate } from "@/hooks/hooks";
 
 const CheckList = () => {
-  const syncScroll = useCallback(e => {
-    document.getElementById("employee-list-wrapper").scrollTop = e.target.scrollTop;
-    document.getElementById("date-list-wrapper").scrollLeft = e.target.scrollLeft;
+  const syncScroll = useCallback((e: UIEvent) => {
+    const employeeListWrapper = document.getElementById("employee-list-wrapper") as HTMLDivElement;
+    if (employeeListWrapper) {
+      employeeListWrapper.scrollTop = (e.target as HTMLDivElement).scrollTop;
+    }
+
+    const dateListWrapper = document.getElementById("date-list-wrapper") as HTMLDivElement;
+    if (dateListWrapper) {
+      dateListWrapper.scrollLeft = (e.target as HTMLDivElement).scrollLeft;
+    }
   }, []);
   const { year, month, days } = useTaegetDate();
 
