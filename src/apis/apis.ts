@@ -43,7 +43,6 @@ const fetchReports =
     }
 
     const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?${params.toString()}`;
-    console.log(url);
     const res = await fetch(url);
     return res.json();
   };

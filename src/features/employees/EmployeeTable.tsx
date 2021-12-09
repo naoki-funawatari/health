@@ -5,13 +5,10 @@ const EmployeeTable = () => {
   const employees = useEmployees();
 
   if (employees.isLoading) {
-    console.log("isLoading");
     return <h2>読み込み中...</h2>;
   }
 
   if (employees.error) console.log("error");
-
-  if (employees.isFetching) console.log("isFetching");
 
   return (
     <table className="employee-table">

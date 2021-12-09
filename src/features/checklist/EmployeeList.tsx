@@ -5,15 +5,10 @@ const EmployeeList = () => {
   const employees = useEmployees();
 
   if (employees.isLoading) {
-    console.log("isLoading");
     return <h2>読み込み中...</h2>;
   }
 
   if (employees.error) console.log("error");
-
-  if (employees.isFetching) console.log("isFetching");
-
-  console.log(employees.data);
 
   return (
     <div className="employee-list-wrapper" id="employee-list-wrapper">

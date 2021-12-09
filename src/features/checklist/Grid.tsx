@@ -26,14 +26,10 @@ const Grid = (props: IGrid) => {
   const handleDialogClose = useCallback(() => setIsOpen(false), []);
 
   if (healthData.isLoading || employees.isLoading || conditions.isLoading) {
-    console.log("isLoading");
     return <h2>読み込み中...</h2>;
   }
 
   if (healthData.error || employees.error || conditions.error) console.log("error");
-
-  if (healthData.isFetching || employees.isFetching || conditions.isFetching)
-    console.log("isFetching");
 
   return (
     <>
