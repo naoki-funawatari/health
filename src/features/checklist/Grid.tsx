@@ -45,6 +45,7 @@ const Grid = (props: IGrid) => {
 
             return (
               <GridRow
+                key={`check-list-${employee.no}`}
                 {...{ handleDialogOpen, employee, healthes, conditions: conditions.data, days }}
               />
             );

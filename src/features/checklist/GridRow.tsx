@@ -15,7 +15,7 @@ const GridRow = (props: IGridRow) => {
   if (!healthes || !conditions) return <></>;
 
   return (
-    <div className="flex-row" key={`check-list-${employee.no}`}>
+    <div className="flex-row">
       {days.map((day, i) => {
         const date = day.format("YYYY/MM/DD");
         let health = healthes.find(o => o.date === date);
