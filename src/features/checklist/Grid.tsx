@@ -5,7 +5,7 @@ import GridRow from "@/features/checklist/GridRow";
 import ReasonDialog from "@/features/checklist/ReasonDialog";
 
 interface IGrid {
-  syncScroll: (e: UIEvent) => void;
+  syncScroll: (e: React.UIEvent) => void;
   year: string;
   month: string;
   days: Dayjs[];
@@ -37,7 +37,7 @@ const Grid = (props: IGrid) => {
 
   return (
     <>
-      <div className="check-list-wrapper" onScroll={e => syncScroll(e.nativeEvent)}>
+      <div className="check-list-wrapper" onScroll={syncScroll}>
         {employees.data &&
           employees.data.map(employee => {
             if (!healthData.data) return <></>;

@@ -7,7 +7,7 @@ import EmployeeList from "@/features/checklist/EmployeeList";
 import Grid from "@/features/checklist/Grid";
 
 const CheckList = () => {
-  const syncScroll = useCallback((e: UIEvent) => {
+  const syncScroll = useCallback((e: React.UIEvent) => {
     const employeeListWrapper = document.getElementById("employee-list-wrapper") as HTMLDivElement;
     if (employeeListWrapper) {
       employeeListWrapper.scrollTop = (e.target as HTMLDivElement).scrollTop;
