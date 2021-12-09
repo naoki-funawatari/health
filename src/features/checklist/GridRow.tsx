@@ -1,5 +1,6 @@
 import { Dayjs } from "dayjs";
 import { IEmployee, IReport, IConditions } from "@/apis/apis";
+import GridItem from "@/features/checklist/GridItem";
 
 interface IGridRow {
   handleDialogOpen: (e: React.ChangeEvent) => void;
@@ -28,15 +29,10 @@ const GridRow = (props: IGridRow) => {
         }
 
         return (
-          <div className="grid-item" key={`check-list-${employee.no}-${i}`}>
-            <select defaultValue={health.condition_id} onChange={handleDialogOpen}>
-              {conditions.map(condition => (
-                <option key={`check-list-${employee.no}-${condition.id}`} value={condition.id}>
-                  {condition.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <GridItem
+            key={`check-list-${employee.no}-${i}`}
+            {...{ handleDialogOpen, employee, health, conditions }}
+          />
         );
       })}
     </div>
