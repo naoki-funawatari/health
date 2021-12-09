@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { fetchConditions, fetchEmployees, fetchReports } from "../apis/apis";
+import { fetchConditions, fetchEmployees, fetchReports } from "@/apis/apis";
 
 const useTaegetDate = () => {
   return useMemo(() => {

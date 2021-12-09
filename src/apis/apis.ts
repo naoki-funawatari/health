@@ -48,4 +48,19 @@ const fetchReports =
     return res.json();
   };
 
-export { fetchConditions, fetchEmployees, fetchReports };
+const updateReport = async (props: IReport): Promise<void> => {
+  const { employee_id, condition_id, date, reason } = props;
+
+  const params = new URLSearchParams();
+  params.append("employee_id", employee_id.toString());
+  params.append("condition_id", condition_id.toString());
+  params.append("date", date);
+  params.append("reason", reason);
+
+  const url = `${process.env.REACT_APP_API_ENDPOINT}/report?${params.toString()}`;
+  const options: RequestInit = { method: "POST" };
+  await fetch(url, options);
+};
+
+export { fetchConditions, fetchEmployees, fetchReports, updateReport };
+export type { IConditions, IEmployee, IReport };
