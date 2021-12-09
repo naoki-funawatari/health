@@ -1,31 +1,17 @@
-import { useState } from "react";
-import ReactModal, { Styles } from "react-modal";
+import { useState, useCallback } from "react";
 import { Dayjs } from "dayjs";
 import { useConditions, useEmployees, useFetchHealthData } from "@/hooks/hooks";
+import ReasonDialog from "@/features/checklist/ReasonDialog";
 
-const modalStyle: Styles = {
-  overlay: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  content: {
-    position: "static",
-    inset: "auto",
-  },
-};
-
-const Grid = ({
-  syncScroll,
-  year,
-  month,
-  days,
-}: {
+interface IGrid {
   syncScroll: (e: UIEvent) => void;
   year: string;
   month: string;
   days: Dayjs[];
-}) => {
+}
+
+const Grid = (props: IGrid) => {
+  const { syncScroll, year, month, days } = props;
   const [isOpen, setIsOpen] = useState(false);
   const healthData = useFetchHealthData(year, month);
   const conditions = useConditions();
@@ -36,7 +22,7 @@ const Grid = ({
       setIsOpen(true);
     }
   };
-  const handleDialogClose = () => setIsOpen(false);
+  const handleDialogClose = useCallback(() => setIsOpen(false), []);
 
   if (healthData.isLoading || employees.isLoading || conditions.isLoading) {
     console.log("isLoading");
@@ -81,16 +67,7 @@ const Grid = ({
           );
         })}
       </div>
-      <ReactModal {...{ isOpen }} contentLabel="Settings" style={modalStyle}>
-        <h2>ここに理由を入力</h2>
-        <div>
-          <input type="text" name="" id="" />
-        </div>
-        <br />
-        <div>
-          <button onClick={handleDialogClose}>ダイアログを閉じる</button>
-        </div>
-      </ReactModal>
+      <ReasonDialog {...{ isOpen, handleDialogClose }} />
     </>
   );
 };
