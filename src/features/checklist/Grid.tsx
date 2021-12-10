@@ -1,4 +1,3 @@
-import { atom } from "recoil";
 import { Dayjs } from "dayjs";
 import { useConditions, useEmployees, useFetchHealthData } from "@/hooks/hooks";
 import GridRow from "@/features/checklist/GridRow";
@@ -10,11 +9,6 @@ interface IGrid {
   month: string;
   days: Dayjs[];
 }
-
-export const isOpenState = atom<boolean>({
-  key: "isOpenState",
-  default: false,
-});
 
 const Grid = (props: IGrid) => {
   const { syncScroll, year, month, days } = props;

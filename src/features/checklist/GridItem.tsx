@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil";
 import { IEmployee, IReport, IConditions } from "@/apis/apis";
-import { isOpenState } from "@/features/checklist/Grid";
+import { isOpenState } from "@/stores/stores";
 
 interface IGridItem {
   employee: IEmployee;

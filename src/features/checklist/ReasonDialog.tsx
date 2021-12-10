@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 import ReactModal, { Styles } from "react-modal";
-import { isOpenState } from "@/features/checklist/Grid";
+import { isOpenState } from "@/stores/stores";
 
 const style: Styles = {
   overlay: {
