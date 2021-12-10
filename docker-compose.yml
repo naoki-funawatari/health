@@ -1,0 +1,16 @@
+version: "3"
+services:
+  web:
+    image: health
+    build: .
+    container_name: health
+    working_dir: /app
+    volumes:
+      - /D/Projects/health:/app
+      - /node_modules
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    restart: always
+    tty: true
