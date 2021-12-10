@@ -1,9 +1,6 @@
+import { useRecoilState } from "recoil";
 import ReactModal, { Styles } from "react-modal";
-
-interface IReasonDialog {
-  isOpen: boolean;
-  handleDialogClose: () => void;
-}
+import { isOpenState } from "@/features/checklist/Grid";
 
 const style: Styles = {
   overlay: {
@@ -17,17 +14,22 @@ const style: Styles = {
   },
 };
 
-const ReasonDialog = ({ isOpen, handleDialogClose }: IReasonDialog) => (
-  <ReactModal {...{ isOpen, style }} contentLabel="Settings">
-    <h2>ここに理由を入力</h2>
-    <div>
-      <input type="text" name="" id="" />
-    </div>
-    <br />
-    <div>
-      <button onClick={handleDialogClose}>ダイアログを閉じる</button>
-    </div>
-  </ReactModal>
-);
+const ReasonDialog = () => {
+  const [isOpen, setIsOpen] = useRecoilState<boolean>(isOpenState);
+  const handleDialogClose = () => setIsOpen(false);
+
+  return (
+    <ReactModal {...{ isOpen, style }} contentLabel="Settings">
+      <h2>ここに理由を入力</h2>
+      <div>
+        <input type="text" name="" id="" />
+      </div>
+      <br />
+      <div>
+        <button onClick={handleDialogClose}>ダイアログを閉じる</button>
+      </div>
+    </ReactModal>
+  );
+};
 
 export default ReasonDialog;

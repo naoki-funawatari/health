@@ -3,7 +3,6 @@ import { IEmployee, IReport, IConditions } from "@/apis/apis";
 import GridItem from "@/features/checklist/GridItem";
 
 interface IGridRow {
-  handleDialogOpen: (e: React.ChangeEvent) => void;
   employee: IEmployee;
   healthes: IReport[] | undefined;
   conditions: IConditions[] | undefined;
@@ -11,7 +10,7 @@ interface IGridRow {
 }
 
 const GridRow = (props: IGridRow) => {
-  const { handleDialogOpen, employee, healthes, conditions, days } = props;
+  const { employee, healthes, conditions, days } = props;
   if (!healthes || !conditions) return <></>;
 
   return (
@@ -29,10 +28,7 @@ const GridRow = (props: IGridRow) => {
         }
 
         return (
-          <GridItem
-            key={`check-list-${employee.no}-${i}`}
-            {...{ handleDialogOpen, employee, health, conditions }}
-          />
+          <GridItem key={`check-list-${employee.no}-${i}`} {...{ employee, health, conditions }} />
         );
       })}
     </div>

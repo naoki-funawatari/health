@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { atom } from "recoil";
 import { Dayjs } from "dayjs";
 import { useConditions, useEmployees, useFetchHealthData } from "@/hooks/hooks";
 import GridRow from "@/features/checklist/GridRow";
@@ -11,19 +11,16 @@ interface IGrid {
   days: Dayjs[];
 }
 
+export const isOpenState = atom<boolean>({
+  key: "isOpenState",
+  default: false,
+});
+
 const Grid = (props: IGrid) => {
   const { syncScroll, year, month, days } = props;
-  const [isOpen, setIsOpen] = useState(false);
   const healthData = useFetchHealthData(year, month);
   const conditions = useConditions();
   const employees = useEmployees();
-  const handleDialogOpen = useCallback((e: React.ChangeEvent) => {
-    const element = e.target as HTMLSelectElement;
-    if ([4, 5].includes(Number(element.value))) {
-      setIsOpen(true);
-    }
-  }, []);
-  const handleDialogClose = useCallback(() => setIsOpen(false), []);
 
   if (healthData.isLoading || employees.isLoading || conditions.isLoading) {
     return <h2>読み込み中...</h2>;
@@ -42,12 +39,12 @@ const Grid = (props: IGrid) => {
             return (
               <GridRow
                 key={`check-list-${employee.no}`}
-                {...{ handleDialogOpen, employee, healthes, conditions: conditions.data, days }}
+                {...{ employee, healthes, conditions: conditions.data, days }}
               />
             );
           })}
       </div>
-      <ReasonDialog {...{ isOpen, handleDialogClose }} />
+      <ReasonDialog />
     </>
   );
 };
