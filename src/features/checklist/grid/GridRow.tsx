@@ -1,17 +1,16 @@
 import { Dayjs } from "dayjs";
-import { IEmployee, IReport, IConditions } from "@/apis/apis";
+import { IEmployee, IReport } from "@/apis/apis";
 import GridItem from "@/features/checklist/grid/GridItem";
 
 interface IGridRow {
   employee: IEmployee;
   healthes: IReport[] | undefined;
-  conditions: IConditions[] | undefined;
   days: Dayjs[];
 }
 
 const GridRow = (props: IGridRow) => {
-  const { employee, healthes, conditions, days } = props;
-  if (!healthes || !conditions) return <></>;
+  const { employee, healthes, days } = props;
+  if (!healthes) return <></>;
 
   return (
     <div className="flex-row">
@@ -27,9 +26,7 @@ const GridRow = (props: IGridRow) => {
           };
         }
 
-        return (
-          <GridItem key={`check-list-${employee.no}-${i}`} {...{ employee, health, conditions }} />
-        );
+        return <GridItem key={`check-list-${employee.no}-${i}`} {...{ employee, health }} />;
       })}
     </div>
   );

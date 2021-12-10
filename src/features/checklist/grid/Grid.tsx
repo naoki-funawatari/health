@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
 import { Dayjs } from "dayjs";
 import { useConditions, useEmployees, useFetchHealthData } from "@/hooks/hooks";
+import { conditionsState } from "@/stores/stores";
 import GridRow from "@/features/checklist/grid/GridRow";
 import ReasonDialog from "@/features/checklist/ReasonDialog";
 
@@ -15,12 +18,15 @@ const Grid = (props: IGrid) => {
   const healthData = useFetchHealthData(year, month);
   const conditions = useConditions();
   const employees = useEmployees();
+  const setConditions = useSetRecoilState(conditionsState);
 
-  if (healthData.isLoading || employees.isLoading || conditions.isLoading) {
+  useEffect(() => setConditions(conditions.data || []), [setConditions, conditions.data]);
+
+  if (healthData.isLoading || employees.isLoading) {
     return <h2>読み込み中...</h2>;
   }
 
-  if (healthData.error || employees.error || conditions.error) console.log("error");
+  if (healthData.error || employees.error) console.log("error");
 
   return (
     <>
@@ -30,12 +36,7 @@ const Grid = (props: IGrid) => {
             if (!healthData.data) return <></>;
             const healthes = healthData.data.filter(o => o.employee_id === employee.id);
 
-            return (
-              <GridRow
-                key={`check-list-${employee.no}`}
-                {...{ employee, healthes, conditions: conditions.data, days }}
-              />
-            );
+            return <GridRow key={`check-list-${employee.no}`} {...{ employee, healthes, days }} />;
           })}
       </div>
       <ReasonDialog />
