@@ -1,6 +1,6 @@
 import { Dayjs } from "dayjs";
 import { useConditions, useEmployees, useFetchHealthData } from "@/hooks/hooks";
-import GridRow from "@/features/checklist/GridRow";
+import GridRow from "@/features/checklist/grid/GridRow";
 import ReasonDialog from "@/features/checklist/ReasonDialog";
 
 interface IGrid {

@@ -4,7 +4,7 @@ import Blank from "@/components/Blank";
 import MonthLabel from "@/features/checklist/MonthLabel";
 import DateList from "@/features/checklist/DateList";
 import EmployeeList from "@/features/checklist/EmployeeList";
-import Grid from "@/features/checklist/Grid";
+import Grid from "@/features/checklist/grid/Grid";
 
 const CheckList = () => {
   const syncScroll = useCallback((e: React.UIEvent) => {

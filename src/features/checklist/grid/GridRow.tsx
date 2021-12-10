@@ -1,6 +1,6 @@
 import { Dayjs } from "dayjs";
 import { IEmployee, IReport, IConditions } from "@/apis/apis";
-import GridItem from "@/features/checklist/GridItem";
+import GridItem from "@/features/checklist/grid/GridItem";
 
 interface IGridRow {
   employee: IEmployee;
