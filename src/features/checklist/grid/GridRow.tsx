@@ -4,21 +4,21 @@ import GridItem from "@/features/checklist/grid/GridItem";
 
 interface IGridRow {
   employee: IEmployee;
-  healthes: IReport[] | undefined;
+  reports: IReport[] | undefined;
   days: Dayjs[];
 }
 
 const GridRow = (props: IGridRow) => {
-  const { employee, healthes, days } = props;
-  if (!healthes) return <></>;
+  const { employee, reports, days } = props;
+  if (!reports) return <></>;
 
   return (
     <div className="flex-row">
       {days.map((day, i) => {
         const date = day.format("YYYY/MM/DD");
-        let health = healthes.find(o => o.date === date);
-        if (!health) {
-          health = {
+        let report = reports.find(o => o.date === date);
+        if (!report) {
+          report = {
             employee_id: employee.id,
             condition_id: 1,
             date,
@@ -26,7 +26,7 @@ const GridRow = (props: IGridRow) => {
           };
         }
 
-        return <GridItem key={`check-list-${employee.no}-${i}`} {...{ employee, health }} />;
+        return <GridItem key={`check-list-${employee.no}-${i}`} {...{ employee, report }} />;
       })}
     </div>
   );

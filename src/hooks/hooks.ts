@@ -27,9 +27,8 @@ const useConditions = () => useQuery("conditions", fetchConditions);
 
 const useEmployees = () => useQuery("employees", fetchEmployees);
 
-const useReports = () => useQuery("reports", fetchReports(null, null));
+const useAllReports = () => useQuery("reports", fetchReports(null, null));
 
-const useFetchHealthData = (year: string, month: string) =>
-  useQuery("reports", fetchReports(year, month));
+const useReports = (year: string, month: string) => useQuery("reports", fetchReports(year, month));
 
-export { useTaegetDate, useConditions, useEmployees, useReports, useFetchHealthData };
+export { useTaegetDate, useConditions, useEmployees, useAllReports, useReports };

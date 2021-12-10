@@ -4,11 +4,11 @@ import { isOpenState, conditionsState } from "@/stores/stores";
 
 interface IGridItem {
   employee: IEmployee;
-  health: IReport;
+  report: IReport;
 }
 
 const GridItem = (props: IGridItem) => {
-  const { employee, health } = props;
+  const { employee, report } = props;
   const setIsOpen = useSetRecoilState<boolean>(isOpenState);
   const conditions = useRecoilValue(conditionsState);
   const handleDialogOpen = (e: React.ChangeEvent) => {
@@ -20,7 +20,7 @@ const GridItem = (props: IGridItem) => {
 
   return (
     <div className="grid-item">
-      <select defaultValue={health.condition_id} onChange={handleDialogOpen}>
+      <select defaultValue={report.condition_id} onChange={handleDialogOpen}>
         {conditions.map(condition => (
           <option key={`check-list-${employee.no}-${condition.id}`} value={condition.id}>
             {condition.name}
