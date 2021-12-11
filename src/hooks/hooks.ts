@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
 import dayjs from "dayjs";
@@ -6,6 +6,19 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { fetchConditions, fetchEmployees, fetchReports, IConditions, IEmployee } from "@/apis/apis";
 import { conditionsState, employeesState } from "@/stores/stores";
+
+export const useSyncScroll = () =>
+  useCallback((e: React.UIEvent) => {
+    const employeeListWrapper = document.getElementById("employee-list-wrapper") as HTMLDivElement;
+    if (employeeListWrapper) {
+      employeeListWrapper.scrollTop = (e.target as HTMLDivElement).scrollTop;
+    }
+
+    const dateListWrapper = document.getElementById("date-list-wrapper") as HTMLDivElement;
+    if (dateListWrapper) {
+      dateListWrapper.scrollLeft = (e.target as HTMLDivElement).scrollLeft;
+    }
+  }, []);
 
 export const useTaegetDate = () => {
   return useMemo(() => {
