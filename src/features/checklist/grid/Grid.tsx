@@ -1,24 +1,21 @@
 import { Dayjs } from "dayjs";
 import { useRecoilValue } from "recoil";
 import { employeesState } from "@/stores/stores";
-import { useFetchConditions, useFetchEmployees, useReports } from "@/hooks/hooks";
+import { useSyncScroll, useReports } from "@/hooks/hooks";
 import GridRow from "@/features/checklist/grid/GridRow";
 import ReasonDialog from "@/features/checklist/ReasonDialog";
 
 interface IGrid {
-  syncScroll: (e: React.UIEvent) => void;
   year: string;
   month: string;
   days: Dayjs[];
 }
 
 const Grid = (props: IGrid) => {
-  const { syncScroll, year, month, days } = props;
-  useFetchConditions();
-  useFetchEmployees();
-  const monthlyReports = useReports(year, month);
-
+  const { year, month, days } = props;
+  const syncScroll = useSyncScroll();
   const employees = useRecoilValue(employeesState);
+  const monthlyReports = useReports(year, month);
 
   if (monthlyReports.isLoading) {
     return <h2>読み込み中...</h2>;
