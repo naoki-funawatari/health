@@ -4,8 +4,15 @@ import { useSetRecoilState } from "recoil";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { fetchConditions, fetchEmployees, fetchReports, IConditions, IEmployee } from "@/apis/apis";
-import { conditionsState, employeesState } from "@/stores/stores";
+import {
+  fetchConditions,
+  fetchEmployees,
+  fetchReports,
+  IConditions,
+  IEmployee,
+  IReport,
+} from "@/apis/apis";
+import { conditionsState, employeesState, reportsState } from "@/stores/stores";
 
 export const useSyncScroll = () =>
   useCallback((e: React.UIEvent) => {
@@ -52,7 +59,9 @@ export const useFetchEmployees = () => {
   return useQuery("employees", fetchEmployees, { onSuccess });
 };
 
-export const useAllReports = () => useQuery("reports", fetchReports(null, null));
+export const useFetchReports = (year: string, month: string) => {
+  const setState = useSetRecoilState(reportsState);
+  const onSuccess = (data: IReport[]): void => setState(data || []);
 
-export const useReports = (year: string, month: string) =>
-  useQuery("reports", fetchReports(year, month));
+  return useQuery("reports", () => fetchReports(year, month), { onSuccess });
+};

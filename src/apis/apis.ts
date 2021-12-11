@@ -31,21 +31,15 @@ interface IReport {
   reason: string;
 }
 
-const fetchReports =
-  (year: string | null, month: string | null) => async (): Promise<IReport[]> => {
-    const params = new URLSearchParams();
-    if (year) {
-      params.append("year", year);
-    }
+const fetchReports = async (year: string, month: string): Promise<IReport[]> => {
+  const params = new URLSearchParams();
+  params.append("year", year);
+  params.append("month", month);
 
-    if (month) {
-      params.append("month", month);
-    }
-
-    const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?${params.toString()}`;
-    const res = await fetch(url);
-    return res.json();
-  };
+  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?${params.toString()}`;
+  const res = await fetch(url);
+  return res.json();
+};
 
 const updateReport = async (props: IReport): Promise<void> => {
   const { employee_id, condition_id, date, reason } = props;

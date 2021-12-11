@@ -10,21 +10,17 @@ interface IGridRow {
 
 const GridRow = (props: IGridRow) => {
   const { employee, reports, days } = props;
-  if (!reports) return <></>;
 
   return (
     <div className="flex-row">
       {days.map((day, i) => {
         const date = day.format("YYYY/MM/DD");
-        let report = reports.find(o => o.date === date);
-        if (!report) {
-          report = {
-            employee_id: employee.id,
-            condition_id: 1,
-            date,
-            reason: "",
-          };
-        }
+        const report = reports?.find(o => o.date === date) ?? {
+          employee_id: employee.id,
+          condition_id: 1,
+          date,
+          reason: "",
+        };
 
         return <GridItem key={`check-list-${employee.no}-${i}`} {...{ employee, report }} />;
       })}

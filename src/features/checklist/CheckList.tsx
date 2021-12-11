@@ -1,4 +1,9 @@
-import { useTaegetDate, useFetchConditions, useFetchEmployees } from "@/hooks/hooks";
+import {
+  useTaegetDate,
+  useFetchConditions,
+  useFetchEmployees,
+  useFetchReports,
+} from "@/hooks/hooks";
 import Blank from "@/components/Blank";
 import MonthLabel from "@/features/checklist/MonthLabel";
 import DateList from "@/features/checklist/DateList";
@@ -9,6 +14,7 @@ const CheckList = () => {
   const { year, month, days } = useTaegetDate();
   useFetchConditions();
   useFetchEmployees();
+  useFetchReports(year, month);
 
   return (
     <div className="checklist">

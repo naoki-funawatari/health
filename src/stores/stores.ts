@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { IConditions, IEmployee } from "@/apis/apis";
+import { IConditions, IEmployee, IReport } from "@/apis/apis";
 
 export const isOpenState = atom<boolean>({
   key: "isOpenState",
@@ -13,5 +13,10 @@ export const conditionsState = atom<IConditions[]>({
 
 export const employeesState = atom<IEmployee[]>({
   key: "employeesState",
+  default: [],
+});
+
+export const reportsState = atom<IReport[]>({
+  key: "reportsState",
   default: [],
 });
