@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 import { useQuery } from "react-query";
+import { useSetRecoilState } from "recoil";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { fetchConditions, fetchEmployees, fetchReports } from "@/apis/apis";
+import { fetchConditions, fetchEmployees, fetchReports, IConditions } from "@/apis/apis";
+import { conditionsState } from "@/stores/stores";
 
 const useTaegetDate = () => {
   return useMemo(() => {
@@ -23,7 +25,12 @@ const useTaegetDate = () => {
   }, []);
 };
 
-const useConditions = () => useQuery("conditions", fetchConditions);
+const useFetchConditions = () => {
+  const setConditions = useSetRecoilState(conditionsState);
+  const onSuccess = (data: IConditions[]): void => setConditions(data || []);
+
+  return useQuery("conditions", fetchConditions, { onSuccess });
+};
 
 const useEmployees = () => useQuery("employees", fetchEmployees);
 
@@ -31,4 +38,4 @@ const useAllReports = () => useQuery("reports", fetchReports(null, null));
 
 const useReports = (year: string, month: string) => useQuery("reports", fetchReports(year, month));
 
-export { useTaegetDate, useConditions, useEmployees, useAllReports, useReports };
+export { useTaegetDate, useFetchConditions, useEmployees, useAllReports, useReports };
