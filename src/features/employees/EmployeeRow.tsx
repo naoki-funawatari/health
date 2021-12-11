@@ -1,19 +1,9 @@
 import React from "react";
+import { IEmployee } from "@/apis/apis";
 
-const EmployeeRow = React.memo(
-  ({
-    bu,
-    ka,
-    rank,
-    no,
-    name,
-  }: {
-    bu: string;
-    ka: string;
-    rank: string;
-    no: string;
-    name: string;
-  }) => (
+const EmployeeRow = React.memo((props: IEmployee) => {
+  const { bu, ka, rank, no, name } = props;
+  return (
     <tr>
       <td>{bu}</td>
       <td>{ka}</td>
@@ -21,7 +11,7 @@ const EmployeeRow = React.memo(
       <td>{no}</td>
       <td>{name}</td>
     </tr>
-  )
-);
+  );
+});
 
 export default EmployeeRow;

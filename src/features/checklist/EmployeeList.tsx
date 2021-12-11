@@ -1,20 +1,15 @@
-import { useEmployees } from "@/hooks/hooks";
+import { useRecoilValue } from "recoil";
+import { employeesState } from "@/stores/stores";
 import Employee from "@/features/checklist/Employee";
 
 const EmployeeList = () => {
-  const employees = useEmployees();
-
-  if (employees.isLoading) {
-    return <h2>読み込み中...</h2>;
-  }
-
-  if (employees.error) console.log("error");
+  const employees = useRecoilValue(employeesState);
 
   return (
     <div className="employee-list-wrapper" id="employee-list-wrapper">
       <div id="employee-list">
-        {employees.data?.map(o => (
-          <Employee key={`employee-list-${o.no}`} {...{ ...o }} />
+        {employees.map(employee => (
+          <Employee key={`employee-list-${employee.no}`} {...{ ...employee }} />
         ))}
       </div>
     </div>

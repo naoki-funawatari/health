@@ -4,10 +4,10 @@ import { useSetRecoilState } from "recoil";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { fetchConditions, fetchEmployees, fetchReports, IConditions } from "@/apis/apis";
-import { conditionsState } from "@/stores/stores";
+import { fetchConditions, fetchEmployees, fetchReports, IConditions, IEmployee } from "@/apis/apis";
+import { conditionsState, employeesState } from "@/stores/stores";
 
-const useTaegetDate = () => {
+export const useTaegetDate = () => {
   return useMemo(() => {
     dayjs.extend(utc);
     dayjs.extend(timezone);
@@ -25,17 +25,21 @@ const useTaegetDate = () => {
   }, []);
 };
 
-const useFetchConditions = () => {
-  const setConditions = useSetRecoilState(conditionsState);
-  const onSuccess = (data: IConditions[]): void => setConditions(data || []);
+export const useFetchConditions = () => {
+  const setState = useSetRecoilState(conditionsState);
+  const onSuccess = (data: IConditions[]): void => setState(data || []);
 
   return useQuery("conditions", fetchConditions, { onSuccess });
 };
 
-const useEmployees = () => useQuery("employees", fetchEmployees);
+export const useFetchEmployees = () => {
+  const setState = useSetRecoilState(employeesState);
+  const onSuccess = (data: IEmployee[]): void => setState(data || []);
 
-const useAllReports = () => useQuery("reports", fetchReports(null, null));
+  return useQuery("employees", fetchEmployees, { onSuccess });
+};
 
-const useReports = (year: string, month: string) => useQuery("reports", fetchReports(year, month));
+export const useAllReports = () => useQuery("reports", fetchReports(null, null));
 
-export { useTaegetDate, useFetchConditions, useEmployees, useAllReports, useReports };
+export const useReports = (year: string, month: string) =>
+  useQuery("reports", fetchReports(year, month));

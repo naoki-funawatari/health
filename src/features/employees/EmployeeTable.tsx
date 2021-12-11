@@ -1,14 +1,11 @@
-import { useEmployees } from "@/hooks/hooks";
+import { useRecoilValue } from "recoil";
+import { employeesState } from "@/stores/stores";
+import { useFetchEmployees } from "@/hooks/hooks";
 import EmployeeRow from "@/features/employees/EmployeeRow";
 
 const EmployeeTable = () => {
-  const employees = useEmployees();
-
-  if (employees.isLoading) {
-    return <h2>読み込み中...</h2>;
-  }
-
-  if (employees.error) console.log("error");
+  useFetchEmployees();
+  const employees = useRecoilValue(employeesState);
 
   return (
     <table className="employee-table">
@@ -22,8 +19,8 @@ const EmployeeTable = () => {
         </tr>
       </thead>
       <tbody>
-        {employees.data?.map(o => (
-          <EmployeeRow key={`employee-row-${o.no}`} {...{ ...o }} />
+        {employees.map(employee => (
+          <EmployeeRow key={`employee-row-${employee.no}`} {...{ ...employee }} />
         ))}
       </tbody>
     </table>

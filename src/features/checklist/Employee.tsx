@@ -1,9 +1,15 @@
-const Employee = ({ bu, no, name }: { bu: string; no: string; name: string }) => (
-  <div className="flex-row">
-    <div className="employee-item bu">{bu}</div>
-    <div className="employee-item no">{no}</div>
-    <div className="employee-item name">{name}</div>
-  </div>
-);
+import React from "react";
+import { IEmployee } from "@/apis/apis";
+
+const Employee = React.memo((props: IEmployee) => {
+  const { bu, no, name } = props;
+  return (
+    <div className="flex-row">
+      <div className="employee-item bu">{bu}</div>
+      <div className="employee-item no">{no}</div>
+      <div className="employee-item name">{name}</div>
+    </div>
+  );
+});
 
 export default Employee;
