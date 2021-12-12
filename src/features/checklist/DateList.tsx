@@ -23,7 +23,11 @@ const weekdayColor: IObjectAccessor = {
   "6": "blue",
 };
 
-const DateList = ({ days }: { days: Dayjs[] }) => (
+interface IDateList {
+  days: Dayjs[];
+}
+
+const DateList = ({ days }: IDateList) => (
   <div className="date-list-wrapper" id="date-list-wrapper">
     <div id="date-list">
       <div className="flex-row">

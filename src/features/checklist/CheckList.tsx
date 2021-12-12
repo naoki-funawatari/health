@@ -11,7 +11,7 @@ import EmployeeList from "@/features/checklist/EmployeeList";
 import Grid from "@/features/checklist/grid/Grid";
 
 const CheckList = () => {
-  const { year, month, days } = useTaegetDate();
+  const { year, month, dates, days } = useTaegetDate();
   useFetchConditions();
   useFetchEmployees();
   useFetchReports(year, month);
@@ -22,7 +22,7 @@ const CheckList = () => {
       <DateList {...{ days }} />
       <Blank className="blank1" />
       <EmployeeList />
-      <Grid {...{ year, month, days }} />
+      <Grid {...{ year, month, dates }} />
       <Blank className="blank2" />
     </div>
   );

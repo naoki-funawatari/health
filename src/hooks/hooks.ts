@@ -40,8 +40,9 @@ export const useTaegetDate = () => {
     const month = Number(tzStartDate.format("M")).toString();
     const endDay = Number(tzEndtDate.format("D"));
     const days = [...Array(endDay)].map((_, i) => tzStartDate.add(i, "day").clone());
+    const dates = days.map(o => o.format("YYYY/MM/DD"));
 
-    return { year, month, days };
+    return { year, month, dates, days };
   }, []);
 };
 

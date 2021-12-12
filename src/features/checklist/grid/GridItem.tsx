@@ -9,7 +9,7 @@ interface IGridItem {
   conditionId: number;
 }
 
-const GridItem = memo((props: IGridItem) => {
+const GridItem = (props: IGridItem) => {
   const { employeeId, date, conditionId } = props;
   const setIsOpen = useSetRecoilState<boolean>(isOpenState);
   const conditions = useRecoilValue(conditionsState);
@@ -41,6 +41,6 @@ const GridItem = memo((props: IGridItem) => {
       </select>
     </div>
   );
-});
+};
 
-export default GridItem;
+export default memo(GridItem);
