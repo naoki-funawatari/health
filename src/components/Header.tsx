@@ -1,10 +1,15 @@
 import { memo } from "react";
-import { useRecoilValue } from "recoil";
-import { changedReportsState } from "@/stores/stores";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { reportsState, changedReportsState } from "@/stores/stores";
+import { updateReports } from "@/apis/apis";
 
 const Header = memo(() => {
   const monthlyReports = useRecoilValue(changedReportsState);
-  const handlePushAndPullClicked = () => console.log(monthlyReports);
+  const setReports = useSetRecoilState(reportsState);
+  const handlePushAndPullClicked = async () => {
+    const newReports = await updateReports(monthlyReports);
+    setReports(newReports);
+  };
 
   return (
     <header>

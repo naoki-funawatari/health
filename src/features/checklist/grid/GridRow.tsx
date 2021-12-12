@@ -35,9 +35,9 @@ const GridRow = (props: IGridRow) => {
 };
 
 const propsAreEqual = (prevProps: Readonly<IGridRow>, nextProps: Readonly<IGridRow>): boolean => {
-  const oldIds = prevProps.reports?.map(o => o.condition_id) ?? [];
-  const newIds = nextProps.reports?.map(o => o.condition_id) ?? [];
-  return oldIds.every((v, i) => newIds[i] === v);
+  const oldIds = prevProps.reports ?? [];
+  const newIds = nextProps.reports ?? [];
+  return oldIds.every((v, i) => newIds[i].condition_id === v.condition_id && newIds[i].isChanged);
 };
 
 export default memo(GridRow, propsAreEqual);
