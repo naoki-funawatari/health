@@ -19,12 +19,14 @@ const GridRow = (props: IGridRow) => {
           condition_id: 1,
           date,
           reason: "",
+          isChanged: undefined,
         };
 
         const props = {
           employeeId: employee.id,
           date: report.date,
           conditionId: report.condition_id,
+          isChanged: report.isChanged ?? false,
         };
         return <GridItem key={`check-list-${employee.id}-${i}`} {...props} />;
       })}

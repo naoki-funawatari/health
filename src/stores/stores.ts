@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 import { IConditions, IEmployee, IReport } from "@/apis/apis";
 
 export const isOpenState = atom<boolean>({
@@ -19,4 +19,13 @@ export const employeesState = atom<IEmployee[]>({
 export const reportsState = atom<IReport[]>({
   key: "reportsState",
   default: [],
+});
+
+export const changedReportsState = selector<IReport[]>({
+  key: "changedReportsState",
+  get({ get }) {
+    const reports = get(reportsState);
+    const changed = reports.filter(o => o.isChanged);
+    return changed;
+  },
 });

@@ -7,10 +7,11 @@ interface IGridItem {
   employeeId: number;
   date: string;
   conditionId: number;
+  isChanged: boolean;
 }
 
 const GridItem = (props: IGridItem) => {
-  const { employeeId, date, conditionId } = props;
+  const { employeeId, date, conditionId, isChanged } = props;
   const setIsOpen = useSetRecoilState<boolean>(isOpenState);
   const conditions = useRecoilValue(conditionsState);
   const setReports = useSetRecoilState<IReport[]>(reportsState);
@@ -21,7 +22,7 @@ const GridItem = (props: IGridItem) => {
     setReports(oldReports => {
       const reports = [...oldReports];
       const index = reports.findIndex(o => o.employee_id === employeeId && o.date === date);
-      reports[index] = { ...reports[index], condition_id: conditionId };
+      reports[index] = { ...reports[index], condition_id: conditionId, isChanged: true };
       return reports;
     });
 
@@ -32,7 +33,11 @@ const GridItem = (props: IGridItem) => {
 
   return (
     <div className="grid-item">
-      <select value={conditionId} onChange={handleReasonChanged}>
+      <select
+        value={conditionId}
+        onChange={handleReasonChanged}
+        className={`${isChanged ? "changed" : ""}`}
+      >
         {conditions.map(condition => (
           <option key={`check-list-${employeeId}-${condition.id}`} value={condition.id}>
             {condition.name}

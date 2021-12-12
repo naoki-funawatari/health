@@ -1,9 +1,9 @@
 import { memo } from "react";
 import { useRecoilValue } from "recoil";
-import { reportsState } from "@/stores/stores";
+import { changedReportsState } from "@/stores/stores";
 
 const Header = memo(() => {
-  const monthlyReports = useRecoilValue(reportsState);
+  const monthlyReports = useRecoilValue(changedReportsState);
   const handlePushAndPullClicked = () => console.log(monthlyReports);
 
   return (

@@ -29,6 +29,7 @@ interface IReport {
   date: string;
   condition_id: number;
   reason: string;
+  isChanged: boolean | undefined;
 }
 
 const fetchReports = async (year: string, month: string): Promise<IReport[]> => {
