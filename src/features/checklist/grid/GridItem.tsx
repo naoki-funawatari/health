@@ -1,27 +1,29 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { memo } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isOpenState, conditionsState, reportsState } from "@/stores/stores";
-import { IEmployee, IReport } from "@/apis/apis";
+import { IReport } from "@/apis/apis";
 
 interface IGridItem {
-  employee: IEmployee;
-  report: IReport;
+  employeeId: number;
+  date: string;
+  conditionId: number;
 }
 
-const GridItem = (props: IGridItem) => {
-  const { employee, report } = props;
+const GridItem = memo((props: IGridItem) => {
+  const { employeeId, date, conditionId } = props;
   const setIsOpen = useSetRecoilState<boolean>(isOpenState);
   const conditions = useRecoilValue(conditionsState);
-  const [reports, setReports] = useRecoilState<IReport[]>(reportsState);
+  const setReports = useSetRecoilState<IReport[]>(reportsState);
 
   const handleReasonChanged = (e: React.ChangeEvent) => {
     const element = e.target as HTMLSelectElement;
     const conditionId = Number(element.value);
-    const newReports = [...reports];
-    const index = newReports.findIndex(
-      o => o.employee_id === employee.id && o.date === report.date
-    );
-    newReports[index] = { ...newReports[index], condition_id: conditionId };
-    setReports(newReports);
+    setReports(oldReports => {
+      const reports = [...oldReports];
+      const index = reports.findIndex(o => o.employee_id === employeeId && o.date === date);
+      reports[index] = { ...reports[index], condition_id: conditionId };
+      return reports;
+    });
 
     if ([4, 5].includes(conditionId)) {
       setIsOpen(true);
@@ -30,15 +32,15 @@ const GridItem = (props: IGridItem) => {
 
   return (
     <div className="grid-item">
-      <select value={report.condition_id} onChange={handleReasonChanged}>
+      <select value={conditionId} onChange={handleReasonChanged}>
         {conditions.map(condition => (
-          <option key={`check-list-${employee.id}-${condition.id}`} value={condition.id}>
+          <option key={`check-list-${employeeId}-${condition.id}`} value={condition.id}>
             {condition.name}
           </option>
         ))}
       </select>
     </div>
   );
-};
+});
 
 export default GridItem;

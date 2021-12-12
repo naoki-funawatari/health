@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Dayjs } from "dayjs";
 import { IEmployee, IReport } from "@/apis/apis";
 import GridItem from "@/features/checklist/grid/GridItem";
@@ -22,10 +23,21 @@ const GridRow = (props: IGridRow) => {
           reason: "",
         };
 
-        return <GridItem key={`check-list-${employee.no}-${i}`} {...{ employee, report }} />;
+        const props = {
+          employeeId: employee.id,
+          date: report.date,
+          conditionId: report.condition_id,
+        };
+        return <GridItem key={`check-list-${employee.id}-${i}`} {...props} />;
       })}
     </div>
   );
 };
 
-export default GridRow;
+const propsAreEqual = (prevProps: Readonly<IGridRow>, nextProps: Readonly<IGridRow>): boolean => {
+  const oldIds = prevProps.reports?.map(o => o.condition_id) ?? [];
+  const newIds = nextProps.reports?.map(o => o.condition_id) ?? [];
+  return oldIds.every((v, i) => newIds[i] === v);
+};
+
+export default memo(GridRow, propsAreEqual);

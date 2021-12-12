@@ -26,8 +26,8 @@ const fetchEmployees = async (): Promise<IEmployee[]> => {
 
 interface IReport {
   employee_id: number;
-  condition_id: number;
   date: string;
+  condition_id: number;
   reason: string;
 }
 
