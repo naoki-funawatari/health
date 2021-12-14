@@ -25,6 +25,7 @@ const fetchEmployees = async (): Promise<IEmployee[]> => {
 };
 
 interface IReport {
+  id: number;
   employee_id: number;
   date: string;
   condition_id: number;
@@ -42,8 +43,12 @@ const fetchReports = async (year: string, month: string): Promise<IReport[]> => 
   return res.json();
 };
 
-const updateReports = async (props: IReport[]): Promise<IReport[]> => {
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports`;
+const updateReports = async (year: string, month: string, props: IReport[]): Promise<IReport[]> => {
+  const params = new URLSearchParams();
+  params.append("year", year);
+  params.append("month", month);
+
+  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?${params.toString()}`;
   const options: RequestInit = {
     method: "POST",
     headers: {

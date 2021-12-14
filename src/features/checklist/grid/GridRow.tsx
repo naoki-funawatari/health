@@ -15,6 +15,7 @@ const GridRow = (props: IGridRow) => {
     <div className="flex-row">
       {dates.map((date, i) => {
         const report = reports?.find(o => o.date === date) ?? {
+          id: 0,
           employee_id: employee.id,
           condition_id: 1,
           date,
@@ -23,6 +24,7 @@ const GridRow = (props: IGridRow) => {
         };
 
         const props = {
+          id: report.id,
           employeeId: employee.id,
           date: report.date,
           conditionId: report.condition_id,

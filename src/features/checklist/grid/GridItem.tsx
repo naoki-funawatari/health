@@ -4,6 +4,7 @@ import { isOpenState, conditionsState, reportsState } from "@/stores/stores";
 import { IReport } from "@/apis/apis";
 
 interface IGridItem {
+  id: number;
   employeeId: number;
   date: string;
   conditionId: number;
