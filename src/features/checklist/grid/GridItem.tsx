@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isOpenState, conditionsState, reportsState } from "@/stores/stores";
-import { IReport } from "@/apis/apis";
+import { IReport } from "@/interfaces/interfaces";
 
 interface IGridItem {
   id: number;

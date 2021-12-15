@@ -1,3 +1,5 @@
+import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
+
 const endpoint = process.env.REACT_APP_API_ENDPOINT;
 
 export async function get<T>(url: string): Promise<T> {
@@ -23,37 +25,13 @@ export async function post<T>(url: string, data: BodyInit): Promise<T> {
   return res.json();
 }
 
-export interface IConditions {
-  id: number;
-  name: string;
-}
-
 export async function fetchConditions(): Promise<IConditions[]> {
   return get(`${endpoint}/conditions`);
-}
-
-export interface IEmployee {
-  id: number;
-  bu: string;
-  ka: string;
-  no: string;
-  rank: string;
-  name: string;
 }
 
 export async function fetchEmployees(): Promise<IEmployee[]> {
   return get(`${endpoint}/employees`);
 }
-
-export interface IReport {
-  id: number;
-  employee_id: number;
-  date: string;
-  condition_id: number;
-  reason: string;
-  isChanged: boolean | undefined;
-}
-
 export async function fetchReports(year: string, month: string): Promise<IReport[]> {
   const params = new URLSearchParams();
   params.append("year", year);

@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { IEmployee, IReport } from "@/apis/apis";
+import { IEmployee, IReport } from "@/interfaces/interfaces";
 import GridItem from "@/features/checklist/grid/GridItem";
 
 interface IGridRow {

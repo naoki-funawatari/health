@@ -4,15 +4,8 @@ import { useSetRecoilState } from "recoil";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import {
-  fetchConditions,
-  fetchEmployees,
-  fetchReports,
-  updateReports,
-  IConditions,
-  IEmployee,
-  IReport,
-} from "@/apis/apis";
+import { fetchConditions, fetchEmployees, fetchReports, updateReports } from "@/apis/apis";
+import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
 import { conditionsState, employeesState, reportsState } from "@/stores/stores";
 
 export function useSyncScroll() {
