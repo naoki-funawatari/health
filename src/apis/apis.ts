@@ -1,64 +1,54 @@
-interface IConditions {
-  id: number;
-  name: string;
+import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
+
+const endpoint = process.env.REACT_APP_API_ENDPOINT;
+
+export async function get<T>(url: string): Promise<T> {
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+    },
+  };
+  const res = await fetch(url, options);
+  return res.json();
 }
 
-const fetchConditions = async (): Promise<IConditions[]> => {
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/conditions`;
-  const res = await fetch(url);
-  return res.json();
-};
-
-interface IEmployee {
-  id: number;
-  bu: string;
-  ka: string;
-  no: string;
-  rank: string;
-  name: string;
-}
-
-const fetchEmployees = async (): Promise<IEmployee[]> => {
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/employees`;
-  const res = await fetch(url);
-  return res.json();
-};
-
-interface IReport {
-  id: number;
-  employee_id: number;
-  date: string;
-  condition_id: number;
-  reason: string;
-  isChanged: boolean | undefined;
-}
-
-const fetchReports = async (year: string, month: string): Promise<IReport[]> => {
-  const params = new URLSearchParams();
-  params.append("year", year);
-  params.append("month", month);
-
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?${params.toString()}`;
-  const res = await fetch(url);
-  return res.json();
-};
-
-const updateReports = async (year: string, month: string, props: IReport[]): Promise<IReport[]> => {
-  const params = new URLSearchParams();
-  params.append("year", year);
-  params.append("month", month);
-
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?${params.toString()}`;
+export async function post<T>(url: string, data: BodyInit): Promise<T> {
   const options: RequestInit = {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
-    body: JSON.stringify(props),
+    body: data,
   };
   const res = await fetch(url, options);
   return res.json();
-};
+}
 
-export { fetchConditions, fetchEmployees, fetchReports, updateReports };
-export type { IConditions, IEmployee, IReport };
+export async function fetchConditions(): Promise<IConditions[]> {
+  return get(`${endpoint}/conditions`);
+}
+
+export async function fetchEmployees(): Promise<IEmployee[]> {
+  return get(`${endpoint}/employees`);
+}
+export async function fetchReports(year: string, month: string): Promise<IReport[]> {
+  const params = new URLSearchParams();
+  params.append("year", year);
+  params.append("month", month);
+
+  return get(`${endpoint}/reports?${params.toString()}`);
+}
+
+export async function updateReports(
+  year: string,
+  month: string,
+  props: IReport[]
+): Promise<IReport[]> {
+  const params = new URLSearchParams();
+  params.append("year", year);
+  params.append("month", month);
+
+  const data: BodyInit = JSON.stringify(props);
+  return post(`${endpoint}/reports?${params.toString()}`, data);
+}

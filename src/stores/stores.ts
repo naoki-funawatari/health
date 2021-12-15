@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { IConditions, IEmployee, IReport } from "@/apis/apis";
+import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
 
 export const isOpenState = atom<boolean>({
   key: "isOpenState",

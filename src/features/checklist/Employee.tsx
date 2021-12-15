@@ -1,5 +1,5 @@
 import React from "react";
-import { IEmployee } from "@/apis/apis";
+import { IEmployee } from "@/interfaces/interfaces";
 
 const Employee = React.memo((props: IEmployee) => {
   const { bu, no, name } = props;

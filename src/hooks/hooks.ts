@@ -1,21 +1,15 @@
 import { useCallback, useMemo } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { useSetRecoilState } from "recoil";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import {
-  fetchConditions,
-  fetchEmployees,
-  fetchReports,
-  IConditions,
-  IEmployee,
-  IReport,
-} from "@/apis/apis";
+import { fetchConditions, fetchEmployees, fetchReports, updateReports } from "@/apis/apis";
+import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
 import { conditionsState, employeesState, reportsState } from "@/stores/stores";
 
-export const useSyncScroll = () =>
-  useCallback((e: React.UIEvent) => {
+export function useSyncScroll() {
+  return useCallback((e: React.UIEvent) => {
     const employeeListWrapper = document.getElementById("employee-list-wrapper") as HTMLDivElement;
     if (employeeListWrapper) {
       employeeListWrapper.scrollTop = (e.target as HTMLDivElement).scrollTop;
@@ -26,8 +20,9 @@ export const useSyncScroll = () =>
       dateListWrapper.scrollLeft = (e.target as HTMLDivElement).scrollLeft;
     }
   }, []);
+}
 
-export const useTaegetDate = () => {
+export function useTaegetDate() {
   return useMemo(() => {
     dayjs.extend(utc);
     dayjs.extend(timezone);
@@ -44,25 +39,32 @@ export const useTaegetDate = () => {
 
     return { year, month, dates, days };
   }, []);
-};
+}
 
-export const useFetchConditions = () => {
+export function useFetchConditions() {
   const setState = useSetRecoilState(conditionsState);
   const onSuccess = (data: IConditions[]): void => setState(data || []);
 
   return useQuery("conditions", fetchConditions, { onSuccess });
-};
+}
 
-export const useFetchEmployees = () => {
+export function useFetchEmployees() {
   const setState = useSetRecoilState(employeesState);
   const onSuccess = (data: IEmployee[]): void => setState(data || []);
 
   return useQuery("employees", fetchEmployees, { onSuccess });
-};
+}
 
-export const useFetchReports = (year: string, month: string) => {
+export function useFetchReports(year: string, month: string) {
   const setState = useSetRecoilState(reportsState);
   const onSuccess = (data: IReport[]): void => setState(data || []);
 
   return useQuery("reports", () => fetchReports(year, month), { onSuccess });
-};
+}
+
+export function useUpdateReports(year: string, month: string, props: IReport[]) {
+  const setState = useSetRecoilState(reportsState);
+  const onSuccess = (data: IReport[]): void => setState(data || []);
+
+  return useMutation("reports", () => updateReports(year, month, props), { onSuccess });
+}
