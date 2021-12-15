@@ -1,15 +1,38 @@
-interface IConditions {
+const endpoint = process.env.REACT_APP_API_ENDPOINT;
+
+export async function get<T>(url: string): Promise<T> {
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+    },
+  };
+  const res = await fetch(url, options);
+  return res.json();
+}
+
+export async function post<T>(url: string, data: BodyInit): Promise<T> {
+  const options: RequestInit = {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: data,
+  };
+  const res = await fetch(url, options);
+  return res.json();
+}
+
+export interface IConditions {
   id: number;
   name: string;
 }
 
-const fetchConditions = async (): Promise<IConditions[]> => {
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/conditions`;
-  const res = await fetch(url);
-  return res.json();
-};
+export async function fetchConditions(): Promise<IConditions[]> {
+  return get(`${endpoint}/conditions`);
+}
 
-interface IEmployee {
+export interface IEmployee {
   id: number;
   bu: string;
   ka: string;
@@ -18,13 +41,11 @@ interface IEmployee {
   name: string;
 }
 
-const fetchEmployees = async (): Promise<IEmployee[]> => {
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/employees`;
-  const res = await fetch(url);
-  return res.json();
-};
+export async function fetchEmployees(): Promise<IEmployee[]> {
+  return get(`${endpoint}/employees`);
+}
 
-interface IReport {
+export interface IReport {
   id: number;
   employee_id: number;
   date: string;
@@ -33,32 +54,23 @@ interface IReport {
   isChanged: boolean | undefined;
 }
 
-const fetchReports = async (year: string, month: string): Promise<IReport[]> => {
+export async function fetchReports(year: string, month: string): Promise<IReport[]> {
   const params = new URLSearchParams();
   params.append("year", year);
   params.append("month", month);
 
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?${params.toString()}`;
-  const res = await fetch(url);
-  return res.json();
-};
+  return get(`${endpoint}/reports?${params.toString()}`);
+}
 
-const updateReports = async (year: string, month: string, props: IReport[]): Promise<IReport[]> => {
+export async function updateReports(
+  year: string,
+  month: string,
+  props: IReport[]
+): Promise<IReport[]> {
   const params = new URLSearchParams();
   params.append("year", year);
   params.append("month", month);
 
-  const url = `${process.env.REACT_APP_API_ENDPOINT}/reports?${params.toString()}`;
-  const options: RequestInit = {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(props),
-  };
-  const res = await fetch(url, options);
-  return res.json();
-};
-
-export { fetchConditions, fetchEmployees, fetchReports, updateReports };
-export type { IConditions, IEmployee, IReport };
+  const data: BodyInit = JSON.stringify(props);
+  return post(`${endpoint}/reports?${params.toString()}`, data);
+}
