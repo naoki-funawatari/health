@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isOpenState, conditionsState, reportsState } from "@/stores/stores";
 import { IReport } from "@/interfaces/interfaces";
@@ -61,4 +60,4 @@ const GridItem = (props: IGridItem) => {
   );
 };
 
-export default memo(GridItem);
+export default GridItem;

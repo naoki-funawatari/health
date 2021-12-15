@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { IEmployee, IReport } from "@/interfaces/interfaces";
 import GridItem from "@/features/checklist/grid/GridItem";
 
@@ -36,34 +35,34 @@ const GridRow = (props: IGridRow) => {
   );
 };
 
-const propsAreEqual = (prevProps: Readonly<IGridRow>, nextProps: Readonly<IGridRow>): boolean => {
-  const prevReports = prevProps.reports ?? [];
-  const nextReports = nextProps.reports ?? [];
+// const propsAreEqual = (prevProps: Readonly<IGridRow>, nextProps: Readonly<IGridRow>): boolean => {
+//   const prevReports = prevProps.reports ?? [];
+//   const nextReports = nextProps.reports ?? [];
 
-  if (prevReports.length !== nextReports.length) {
-    return false;
-  }
+//   if (prevReports.length !== nextReports.length) {
+//     return false;
+//   }
 
-  prevReports.sort((a, b) => a.date.localeCompare(b.date));
-  nextReports.sort((a, b) => a.date.localeCompare(b.date));
+//   prevReports.sort((a, b) => a.date.localeCompare(b.date));
+//   nextReports.sort((a, b) => a.date.localeCompare(b.date));
 
-  const isSame = (prev: IReport, next: IReport): boolean => {
-    if (prev.date !== next.date) {
-      return false;
-    }
+//   const isSame = (prev: IReport, next: IReport): boolean => {
+//     if (prev.date !== next.date) {
+//       return false;
+//     }
 
-    if (next.isChanged) {
-      return false;
-    }
+//     if (next.isChanged) {
+//       return false;
+//     }
 
-    if (prev.condition_id !== next.condition_id) {
-      return false;
-    }
+//     if (prev.condition_id !== next.condition_id) {
+//       return false;
+//     }
 
-    return true;
-  };
+//     return true;
+//   };
 
-  return prevReports.every((v, i) => isSame(v, nextReports[i]));
-};
+//   return prevReports.every((v, i) => isSame(v, nextReports[i]));
+// };
 
-export default memo(GridRow, propsAreEqual);
+export default GridRow;
