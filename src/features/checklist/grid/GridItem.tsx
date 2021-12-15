@@ -23,7 +23,19 @@ const GridItem = (props: IGridItem) => {
     setReports(oldReports => {
       const reports = [...oldReports];
       const index = reports.findIndex(o => o.employee_id === employeeId && o.date === date);
-      reports[index] = { ...reports[index], condition_id: conditionId, isChanged: true };
+      if (index !== -1) {
+        reports[index] = { ...reports[index], condition_id: conditionId, isChanged: true };
+      } else {
+        reports.push({
+          id: 0,
+          employee_id: employeeId,
+          date,
+          condition_id: conditionId,
+          reason: "",
+          isChanged: true,
+        });
+      }
+
       return reports;
     });
 
