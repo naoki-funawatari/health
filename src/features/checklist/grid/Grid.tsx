@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { employeesState, reportsState } from "@/stores/stores";
 import { useSyncScroll } from "@/hooks/hooks";
@@ -32,10 +31,10 @@ const Grid = (props: IGrid) => {
   );
 };
 
-const propsAreEqual = (prevProps: Readonly<IGrid>, nextProps: Readonly<IGrid>): boolean => {
-  const oldDates = prevProps.dates;
-  const newDates = nextProps.dates;
-  return oldDates.every((v, i) => newDates[i] === v);
-};
+// const propsAreEqual = (prevProps: Readonly<IGrid>, nextProps: Readonly<IGrid>): boolean => {
+//   const oldDates = prevProps.dates;
+//   const newDates = nextProps.dates;
+//   return oldDates.every((v, i) => newDates[i] === v);
+// };
 
-export default memo(Grid, propsAreEqual);
+export default Grid;

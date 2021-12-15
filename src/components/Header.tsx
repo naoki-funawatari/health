@@ -1,9 +1,8 @@
-import { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { changedReportsState } from "@/stores/stores";
 import { useTaegetDate, useUpdateReports } from "@/hooks/hooks";
 
-const Header = memo(() => {
+const Header = () => {
   const { year, month } = useTaegetDate();
   const monthlyReports = useRecoilValue(changedReportsState);
   const { mutateAsync } = useUpdateReports(year, month, monthlyReports);
@@ -17,6 +16,6 @@ const Header = memo(() => {
       </div>
     </header>
   );
-});
+};
 
 export default Header;
