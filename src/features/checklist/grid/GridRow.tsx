@@ -37,9 +37,33 @@ const GridRow = (props: IGridRow) => {
 };
 
 const propsAreEqual = (prevProps: Readonly<IGridRow>, nextProps: Readonly<IGridRow>): boolean => {
-  const oldIds = prevProps.reports ?? [];
-  const newIds = nextProps.reports ?? [];
-  return oldIds.every((v, i) => newIds[i].condition_id === v.condition_id && newIds[i].isChanged);
+  const prevReports = prevProps.reports ?? [];
+  const nextReports = nextProps.reports ?? [];
+
+  if (prevReports.length !== nextReports.length) {
+    return false;
+  }
+
+  prevReports.sort((a, b) => a.date.localeCompare(b.date));
+  nextReports.sort((a, b) => a.date.localeCompare(b.date));
+
+  const isSame = (prev: IReport, next: IReport): boolean => {
+    if (prev.date !== next.date) {
+      return false;
+    }
+
+    if (next.isChanged) {
+      return false;
+    }
+
+    if (prev.condition_id !== next.condition_id) {
+      return false;
+    }
+
+    return true;
+  };
+
+  return prevReports.every((v, i) => isSame(v, nextReports[i]));
 };
 
 export default memo(GridRow, propsAreEqual);
