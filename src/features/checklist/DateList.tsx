@@ -32,6 +32,7 @@ interface IDateList {
 
 export default function DateList(props: IDateList) {
   const { days, dates, holidays } = props;
+
   return (
     <div className="date-list-wrapper" id="date-list-wrapper">
       <div id="date-list">
