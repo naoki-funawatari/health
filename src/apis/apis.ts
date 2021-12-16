@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
+import { IConditions, IEmployee, IHolidays, IReport } from "@/interfaces/interfaces";
 
 export async function fetchConditions() {
   const { data } = await axios.get<Promise<IConditions[]>>("conditions");
@@ -8,6 +8,12 @@ export async function fetchConditions() {
 
 export async function fetchEmployees() {
   const { data } = await axios.get<Promise<IEmployee[]>>("employees");
+  return data;
+}
+
+export async function fetchHolidays(year: string, month: string) {
+  const url = `holidays/${year}/${month}`;
+  const { data } = await axios.get<Promise<IHolidays[]>>(url);
   return data;
 }
 

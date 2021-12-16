@@ -10,6 +10,9 @@ const Navigation = () => (
       <Link to="/employees">社員一覧</Link>
     </p>
     <p>
+      <Link to="/holidays">祝祭日一覧</Link>
+    </p>
+    <p>
       <Link to="/checklist">チェック表</Link>
     </p>
   </nav>
