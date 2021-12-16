@@ -1,9 +1,9 @@
 import { useRecoilValue } from "recoil";
-import { changedReportsState } from "@/stores/stores";
-import { useTaegetDate, useUpdateReports } from "@/hooks/hooks";
+import { changedReportsState, yearMonthState } from "@/stores/stores";
+import { useUpdateReports } from "@/hooks/hooks";
 
-const Header = () => {
-  const { year, month } = useTaegetDate();
+export default function Header() {
+  const { year, month } = useRecoilValue(yearMonthState);
   const monthlyReports = useRecoilValue(changedReportsState);
   const { mutateAsync } = useUpdateReports(year, month, monthlyReports);
   const handlePushAndPullClicked = async () => await mutateAsync();
@@ -16,6 +16,4 @@ const Header = () => {
       </div>
     </header>
   );
-};
-
-export default Header;
+}

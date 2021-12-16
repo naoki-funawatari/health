@@ -1,9 +1,6 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useSetRecoilState } from "recoil";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 import {
   fetchConditions,
   fetchEmployees,
@@ -27,25 +24,6 @@ export function useSyncScroll() {
     if (dateListWrapper) {
       dateListWrapper.scrollLeft = (e.target as HTMLDivElement).scrollLeft;
     }
-  }, []);
-}
-
-export function useTaegetDate() {
-  return useMemo(() => {
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-    dayjs.tz.setDefault("Asia/Tokyo");
-
-    const tzDate = dayjs().tz();
-    const tzStartDate = tzDate.startOf("month");
-    const tzEndtDate = tzDate.endOf("month");
-    const year = Number(tzStartDate.format("YYYY")).toString();
-    const month = Number(tzStartDate.format("M")).toString();
-    const endDay = Number(tzEndtDate.format("D"));
-    const days = [...Array(endDay)].map((_, i) => tzStartDate.add(i, "day").clone());
-    const dates = days.map(o => o.format("YYYY/MM/DD"));
-
-    return { year, month, dates, days };
   }, []);
 }
 
