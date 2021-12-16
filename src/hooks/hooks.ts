@@ -92,7 +92,7 @@ export function useFetchReports(year: string, month: string) {
   const setState = useSetRecoilState(reportsState);
   const onSuccess = (data: IReport[]): void => setState(data || []);
 
-  return useQuery("reports", () => fetchReports(year, month), { onSuccess });
+  return useQuery(["reports", year, month], () => fetchReports(year, month), { onSuccess });
 }
 
 export function useUpdateReports(year: string, month: string, props: IReport[]) {
