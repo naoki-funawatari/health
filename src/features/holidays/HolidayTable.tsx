@@ -1,25 +1,29 @@
-import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { holidaysState } from "@/stores/stores";
-import { useFetchHolidaysByYear, useTaegetDate } from "@/hooks/hooks";
+import React from "react";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { defaultYear, defaultMonth, yearMonthState, holidaysState } from "@/stores/stores";
+import { useFetchHolidaysByYear } from "@/hooks/hooks";
 import HolidayRow from "@/features/holidays/HolidayRow";
 
 export default function HolidayTable() {
-  const { year } = useTaegetDate();
-  const years = [0, 1, 2].map(o => `${Number(year) + o}`);
-  const [selectedYear, setYear] = useState(year);
-  useFetchHolidaysByYear(selectedYear);
+  const [{ year }, setYearMonth] = useRecoilState(yearMonthState);
+  const years = [0, 1, 2].map(o => `${Number(defaultYear) + o}`);
+  useFetchHolidaysByYear(year);
   const holidays = useRecoilValue(holidaysState);
 
   function handleYearChanged(event: React.ChangeEvent) {
-    setYear((event.target as HTMLSelectElement).value);
+    const yearMonth = {
+      year: (event.target as HTMLSelectElement).value,
+      month: defaultMonth,
+    };
+
+    setYearMonth(yearMonth);
   }
 
   return (
     <>
       <h2>祝祭日一覧</h2>
       <p>
-        <select value={selectedYear} onChange={handleYearChanged}>
+        <select value={year} onChange={handleYearChanged}>
           {years.map(o => (
             <option key={o} value={o}>
               {o}
