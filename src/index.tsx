@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
+import axios from "axios";
 import "@/assets/styles/index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -14,6 +15,8 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
 ReactDOM.render(
   <React.StrictMode>
