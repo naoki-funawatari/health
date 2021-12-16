@@ -1,54 +1,36 @@
+import axios from "axios";
 import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
 
-const endpoint = process.env.REACT_APP_API_ENDPOINT;
-
-export async function get<T>(url: string): Promise<T> {
-  const options: RequestInit = {
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-    },
-  };
-  const res = await fetch(url, options);
-  return res.json();
+export async function fetchConditions() {
+  const { data } = await axios.get<Promise<IConditions[]>>("conditions");
+  return data;
 }
 
-export async function post<T>(url: string, data: BodyInit): Promise<T> {
-  const options: RequestInit = {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: data,
-  };
-  const res = await fetch(url, options);
-  return res.json();
+export async function fetchEmployees() {
+  const { data } = await axios.get<Promise<IEmployee[]>>("employees");
+  return data;
 }
 
-export async function fetchConditions(): Promise<IConditions[]> {
-  return get(`${endpoint}/conditions`);
-}
-
-export async function fetchEmployees(): Promise<IEmployee[]> {
-  return get(`${endpoint}/employees`);
-}
-export async function fetchReports(year: string, month: string): Promise<IReport[]> {
+export async function fetchReports(year: string, month: string) {
   const params = new URLSearchParams();
   params.append("year", year);
   params.append("month", month);
 
-  return get(`${endpoint}/reports?${params.toString()}`);
+  const url = `reports?${params.toString()}`;
+  const { data } = await axios.get<Promise<IReport[]>>(url);
+  return data;
 }
 
 export async function updateReports(
   year: string,
   month: string,
-  props: IReport[]
+  reports: IReport[]
 ): Promise<IReport[]> {
   const params = new URLSearchParams();
   params.append("year", year);
   params.append("month", month);
 
-  const data: BodyInit = JSON.stringify(props);
-  return post(`${endpoint}/reports?${params.toString()}`, data);
+  const url = `reports?${params.toString()}`;
+  const { data } = await axios.post<Promise<IReport[]>>(url, reports);
+  return data;
 }
