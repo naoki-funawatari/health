@@ -8,6 +8,8 @@ import {
   fetchConditions,
   fetchEmployees,
   fetchHolidays,
+  fetchHolidaysByYear,
+  fetchHolidaysByMonth,
   fetchReports,
   updateReports,
 } from "@/apis/apis";
@@ -61,11 +63,29 @@ export function useFetchEmployees() {
   return useQuery("employees", fetchEmployees, { onSuccess });
 }
 
-export function useFetchHolidays(year: string, month: string) {
+export function useFetchHolidays() {
   const setState = useSetRecoilState(holidaysState);
   const onSuccess = (data: IHolidays[]): void => setState(data || []);
 
-  return useQuery("holidays", () => fetchHolidays(year, month), { onSuccess });
+  return useQuery(["holidays"], fetchHolidays, { onSuccess });
+}
+
+export function useFetchHolidaysByYear(year: string) {
+  const setState = useSetRecoilState(holidaysState);
+  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+
+  return useQuery(["holidays", year], () => fetchHolidaysByYear(year), {
+    onSuccess,
+  });
+}
+
+export function useFetchHolidaysByMonth(year: string, month: string) {
+  const setState = useSetRecoilState(holidaysState);
+  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+
+  return useQuery(["holidays", year, month], () => fetchHolidaysByMonth(year, month), {
+    onSuccess,
+  });
 }
 
 export function useFetchReports(year: string, month: string) {

@@ -11,7 +11,19 @@ export async function fetchEmployees() {
   return data;
 }
 
-export async function fetchHolidays(year: string, month: string) {
+export async function fetchHolidays() {
+  const url = `holidays`;
+  const { data } = await axios.get<Promise<IHolidays[]>>(url);
+  return data;
+}
+
+export async function fetchHolidaysByYear(year: string) {
+  const url = `holidays/${year}`;
+  const { data } = await axios.get<Promise<IHolidays[]>>(url);
+  return data;
+}
+
+export async function fetchHolidaysByMonth(year: string, month: string) {
   const url = `holidays/${year}/${month}`;
   const { data } = await axios.get<Promise<IHolidays[]>>(url);
   return data;
