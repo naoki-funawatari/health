@@ -1,3 +1,4 @@
+import { IHolidays } from "@/interfaces/interfaces";
 import { Dayjs } from "dayjs";
 
 interface IObjectAccessor {
@@ -25,29 +26,37 @@ const weekdayColor: IObjectAccessor = {
 
 interface IDateList {
   days: Dayjs[];
+  dates: string[];
+  holidays: IHolidays[];
 }
 
-const DateList = ({ days }: IDateList) => (
-  <div className="date-list-wrapper" id="date-list-wrapper">
-    <div id="date-list">
-      <div className="flex-row">
-        {days.map((o, i) => (
-          <div className="grid-item" key={`date-list-1-${i}`}>
-            {o.format("D")}
-          </div>
-        ))}
-      </div>
-      <div className="flex-row">
-        {days.map((o, i) => (
-          <div className="grid-item" key={`date-list-2-${i}`}>
-            <span>(</span>
-            <span style={{ color: weekdayColor[o.format("d")] }}>{jaWeekday[o.format("d")]}</span>
-            <span>)</span>
-          </div>
-        ))}
+export default function DateList(props: IDateList) {
+  const { days, dates, holidays } = props;
+  return (
+    <div className="date-list-wrapper" id="date-list-wrapper">
+      <div id="date-list">
+        <div className="flex-row">
+          {days.map((o, i) => (
+            <div className="grid-item" key={`date-list-1-${i}`}>
+              {o.format("D")}
+            </div>
+          ))}
+        </div>
+        <div className="flex-row">
+          {days.map((o, i) => {
+            const color = holidays.find(o => o.date === dates[i])
+              ? "red"
+              : weekdayColor[o.format("d")];
+            return (
+              <div className="grid-item" key={`date-list-2-${i}`}>
+                <span>(</span>
+                <span style={{ color }}>{jaWeekday[o.format("d")]}</span>
+                <span>)</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
-  </div>
-);
-
-export default DateList;
+  );
+}
