@@ -4,12 +4,7 @@ import { useSyncScroll } from "@/hooks/hooks";
 import GridRow from "@/features/checklist/grid/GridRow";
 import ReasonDialog from "@/features/checklist/ReasonDialog";
 
-interface IGrid {
-  dates: string[];
-}
-
-const Grid = (props: IGrid) => {
-  const { dates } = props;
+const Grid = () => {
   const syncScroll = useSyncScroll();
   const employees = useRecoilValue(employeesState);
   const monthlyReports = useRecoilValue(reportsState);
@@ -20,7 +15,7 @@ const Grid = (props: IGrid) => {
         {employees.map(employee => {
           const reports = monthlyReports.filter(o => o.employee_id === employee.id);
 
-          return <GridRow key={`check-list-${employee.no}`} {...{ employee, reports, dates }} />;
+          return <GridRow key={`check-list-${employee.no}`} {...{ employee, reports }} />;
         })}
       </div>
       <ReasonDialog />

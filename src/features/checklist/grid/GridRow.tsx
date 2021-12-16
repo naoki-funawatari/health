@@ -1,19 +1,21 @@
+import { useRecoilValue } from "recoil";
+import { dateListState } from "@/stores/stores";
 import { IEmployee, IReport } from "@/interfaces/interfaces";
 import GridItem from "@/features/checklist/grid/GridItem";
 
 interface IGridRow {
   employee: IEmployee;
   reports: IReport[] | undefined;
-  dates: string[];
 }
 
 const GridRow = (props: IGridRow) => {
-  const { employee, reports, dates } = props;
+  const { employee, reports } = props;
+  const dates = useRecoilValue(dateListState);
 
   return (
     <div className="flex-row">
       {dates.map((date, i) => {
-        const report = reports?.find(o => o.date === date) ?? {
+        const report = reports?.find(o => o.date === date.value) ?? {
           id: 0,
           employee_id: employee.id,
           condition_id: 1,
@@ -29,7 +31,7 @@ const GridRow = (props: IGridRow) => {
           conditionId: report.condition_id,
           isChanged: report.isChanged ?? false,
         };
-        return <GridItem key={`check-list-${employee.id}-${i}`} {...props} />;
+        return <GridItem key={`check-list-${employee.id}-${i}`} {...props} date={date.value} />;
       })}
     </div>
   );

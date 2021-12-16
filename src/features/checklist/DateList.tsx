@@ -1,10 +1,9 @@
-import { IHolidays } from "@/interfaces/interfaces";
-import { Dayjs } from "dayjs";
+import { useRecoilValue } from "recoil";
+import { dateListState } from "@/stores/stores";
 
 interface IObjectAccessor {
   [key: string]: string;
 }
-
 const jaWeekday: IObjectAccessor = {
   "0": "日",
   "1": "月",
@@ -24,34 +23,28 @@ const weekdayColor: IObjectAccessor = {
   "6": "blue",
 };
 
-interface IDateList {
-  days: Dayjs[];
-  dates: string[];
-  holidays: IHolidays[];
-}
-
-export default function DateList(props: IDateList) {
-  const { days, dates, holidays } = props;
+export default function DateList() {
+  const dates = useRecoilValue(dateListState);
 
   return (
     <div className="date-list-wrapper" id="date-list-wrapper">
       <div id="date-list">
         <div className="flex-row">
-          {days.map((o, i) => (
-            <div className="grid-item" key={`date-list-1-${i}`}>
-              {o.format("D")}
+          {dates.map(o => (
+            <div className="grid-item" key={`date-list-0-${o.value}`}>
+              {o.day}
             </div>
           ))}
         </div>
         <div className="flex-row">
-          {days.map((o, i) => {
-            const color = holidays.find(o => o.date === dates[i])
-              ? "red"
-              : weekdayColor[o.format("d")];
+          {dates.map((o, i) => {
+            const color = weekdayColor[o.weekday];
+            const value = jaWeekday[o.weekday];
+
             return (
               <div className="grid-item" key={`date-list-2-${i}`}>
                 <span>(</span>
-                <span style={{ color }}>{jaWeekday[o.format("d")]}</span>
+                <span style={{ color }}>{value}</span>
                 <span>)</span>
               </div>
             );
