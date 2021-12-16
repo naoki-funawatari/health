@@ -1,9 +1,9 @@
 import MainRouter from "@/routers/MainRouter";
 
-const Main = () => (
-  <main>
-    <MainRouter />
-  </main>
-);
-
-export default Main;
+export default function Main() {
+  return (
+    <main>
+      <MainRouter />
+    </main>
+  );
+}

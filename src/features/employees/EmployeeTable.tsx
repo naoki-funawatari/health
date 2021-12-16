@@ -8,22 +8,25 @@ const EmployeeTable = () => {
   const employees = useRecoilValue(employeesState);
 
   return (
-    <table className="employee-table">
-      <thead>
-        <tr>
-          <th>部</th>
-          <th>課</th>
-          <th>職位</th>
-          <th>社員番号</th>
-          <th>氏名</th>
-        </tr>
-      </thead>
-      <tbody>
-        {employees.map(employee => (
-          <EmployeeRow key={`employee-row-${employee.no}`} {...{ ...employee }} />
-        ))}
-      </tbody>
-    </table>
+    <>
+      <h2>社員一覧</h2>
+      <table className="employee-table">
+        <thead>
+          <tr>
+            <th>部</th>
+            <th>課</th>
+            <th>職位</th>
+            <th>社員番号</th>
+            <th>氏名</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map(employee => (
+            <EmployeeRow key={`employee-row-${employee.no}`} {...{ ...employee }} />
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 

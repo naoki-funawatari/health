@@ -12,6 +12,12 @@ export interface IEmployee {
   name: string;
 }
 
+export interface IHolidays {
+  id: number;
+  date: string;
+  name: string;
+}
+
 export interface IReport {
   id: number;
   employee_id: number;

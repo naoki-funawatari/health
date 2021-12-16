@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
+import { IConditions, IEmployee, IHolidays, IReport } from "@/interfaces/interfaces";
 
 export const isOpenState = atom<boolean>({
   key: "isOpenState",
@@ -13,6 +13,11 @@ export const conditionsState = atom<IConditions[]>({
 
 export const employeesState = atom<IEmployee[]>({
   key: "employeesState",
+  default: [],
+});
+
+export const holidaysState = atom<IHolidays[]>({
+  key: "holidaysState",
   default: [],
 });
 
