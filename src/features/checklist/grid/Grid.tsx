@@ -13,9 +13,6 @@ const Grid = (props: IGrid) => {
   const syncScroll = useSyncScroll();
   const employees = useRecoilValue(employeesState);
   const monthlyReports = useRecoilValue(reportsState);
-  if (!monthlyReports.length) {
-    return <h2>読み込み中...</h2>;
-  }
 
   return (
     <>
