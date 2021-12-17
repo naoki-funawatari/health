@@ -8,7 +8,6 @@ const MainRouter = () => (
     <Route path="/" element={<CheckList />} />
     <Route path="/employees" element={<EmployeeTable />} />
     <Route path="/holidays" element={<HolidayTable />} />
-    <Route path="/checklist" element={<CheckList />} />
   </Routes>
 );
 
