@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { yearMonthState, defaultYear, defaultMonth } from "@/stores/stores";
+import { useRegisterHolidays } from "@/hooks/hooks";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -46,9 +47,10 @@ export default function HolidayForm() {
   const months = useMonths();
   const days = useDays(year, month);
   const { register, handleSubmit } = useForm();
+  const { mutateAsync } = useRegisterHolidays({ id: 0, date: `${year}/${month}/${day}`, name });
 
-  function onSubmit(data: IHolidayForm) {
-    console.log(data);
+  async function onSubmit(data: IHolidayForm) {
+    await mutateAsync();
 
     setMonth("01");
     setDay("01");

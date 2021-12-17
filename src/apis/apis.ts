@@ -29,6 +29,12 @@ export async function fetchHolidaysByMonth(year: string, month: string) {
   return data;
 }
 
+export async function registerHoliday(holiday: IHolidays) {
+  const url = `holidays`;
+  const { data } = await axios.post<Promise<IHolidays[]>>(url, holiday);
+  return data;
+}
+
 export async function fetchReports(year: string, month: string) {
   const params = new URLSearchParams();
   params.append("year", year);
