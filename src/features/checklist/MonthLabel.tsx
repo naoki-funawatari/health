@@ -1,53 +1,71 @@
-import { useRecoilState } from "recoil";
-import { defaultYear, yearMonthState } from "@/stores/stores";
+import { useMemo } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { defaultYear, reportDateState } from "@/stores/stores";
 import { useFetchHolidaysByMonth, useFetchReports } from "@/hooks/hooks";
 
-const MonthLabel = () => {
-  const [{ year, month }, setYearMonth] = useRecoilState(yearMonthState);
+export default function MonthLabel() {
+  const { year, month } = useRecoilValue(reportDateState);
   useFetchReports(year, month);
   useFetchHolidaysByMonth(year, month);
-  const years = [0, 1, 2].map(o => `${Number(defaultYear) + o}`);
-  const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-  function handleYearChanged(event: React.ChangeEvent) {
-    const yearMonth = {
-      year: (event.target as HTMLSelectElement).value,
-      month,
-    };
-
-    setYearMonth(yearMonth);
-  }
-
-  function handleMonthChanged(event: React.ChangeEvent) {
-    const yearMonth = {
-      year,
-      month: (event.target as HTMLSelectElement).value,
-    };
-
-    setYearMonth(yearMonth);
-  }
 
   return (
     <div className="month-label">
       <div>
-        <select value={year} onChange={handleYearChanged}>
-          {years.map(o => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <span> 年 </span>
-        <select value={month} onChange={handleMonthChanged}>
-          {months.map(o => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <span> 月</span>
+        <YearSelect />
+        <span>&nbsp;年&nbsp;</span>
+        <MonthSelect />
+        <span>&nbsp;月</span>
       </div>
     </div>
   );
-};
+}
 
-export default MonthLabel;
+function YearSelect() {
+  const [reportDate, setReportDate] = useRecoilState(reportDateState);
+  const years = useYears();
+  const handleYearChanged = (event: React.ChangeEvent) => {
+    const year = (event.target as HTMLSelectElement).value;
+    setReportDate(reportDate => ({ ...reportDate, year }));
+  };
+
+  return (
+    <select value={reportDate.year} onChange={handleYearChanged}>
+      {years.map(o => (
+        <option key={o} value={o}>
+          {o}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function MonthSelect() {
+  const [reportDate, setReportDate] = useRecoilState(reportDateState);
+  const months = useMonths();
+  const handleMonthChanged = (event: React.ChangeEvent) => {
+    const month = (event.target as HTMLSelectElement).value;
+    setReportDate(reportDate => ({ ...reportDate, month }));
+  };
+
+  return (
+    <select value={reportDate.month} onChange={handleMonthChanged}>
+      {months.map(o => (
+        <option key={o} value={o}>
+          {o}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function useYears() {
+  return useMemo(() => {
+    return [0, 1, 2].map(o => `${Number(defaultYear) + o}`);
+  }, []);
+}
+
+function useMonths() {
+  return useMemo(() => {
+    return [...Array(12)].map((_, i) => `${i + 1}`.padStart(2, "0"));
+  }, []);
+}
