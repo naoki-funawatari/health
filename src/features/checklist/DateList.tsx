@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { dateListState } from "@/stores/stores";
+import { dateListState, holidaysState } from "@/stores/stores";
 
 interface IObjectAccessor {
   [key: string]: string;
@@ -25,6 +25,7 @@ const weekdayColor: IObjectAccessor = {
 
 export default function DateList() {
   const dates = useRecoilValue(dateListState);
+  const holidays = useRecoilValue(holidaysState);
 
   return (
     <div className="date-list-wrapper" id="date-list-wrapper">
@@ -38,7 +39,7 @@ export default function DateList() {
         </div>
         <div className="flex-row">
           {dates.map((o, i) => {
-            const color = weekdayColor[o.weekday];
+            const color = holidays.find(p => p.date === o.value) ? "red" : weekdayColor[o.weekday];
             const value = jaWeekday[o.weekday];
 
             return (
