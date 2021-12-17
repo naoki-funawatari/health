@@ -8,6 +8,7 @@ import {
   fetchHolidaysByYear,
   fetchHolidaysByMonth,
   registerHoliday,
+  deleteHoliday,
   fetchReports,
   updateReports,
 } from "@/apis/apis";
@@ -72,6 +73,13 @@ export function useRegisterHolidays(holiday: IHolidays) {
   const onSuccess = (data: IHolidays[]): void => setState(data || []);
 
   return useMutation(["holidays"], () => registerHoliday(holiday), { onSuccess });
+}
+
+export function useDeleteHolidays(year: string, id: number) {
+  const setState = useSetRecoilState(holidaysState);
+  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+
+  return useMutation(["holidays", year, id], () => deleteHoliday(year, id), { onSuccess });
 }
 
 export function useFetchReports(year: string, month: string) {

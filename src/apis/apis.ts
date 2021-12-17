@@ -35,6 +35,12 @@ export async function registerHoliday(holiday: IHolidays) {
   return data;
 }
 
+export async function deleteHoliday(year: string, id: number) {
+  const url = `holidays/${year}/${id}`;
+  const { data } = await axios.delete<Promise<IHolidays[]>>(url);
+  return data;
+}
+
 export async function fetchReports(year: string, month: string) {
   const params = new URLSearchParams();
   params.append("year", year);
