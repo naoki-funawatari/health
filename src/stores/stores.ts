@@ -12,15 +12,18 @@ const tzDate = dayjs().tz();
 export const defaultYear = tzDate.format("YYYY");
 export const defaultMonth = tzDate.format("MM");
 
-export const yearMonthState = atom({
-  key: "yearMonthState",
-  default: { year: defaultYear, month: defaultMonth },
+export const reportDateState = atom({
+  key: "reportDateState",
+  default: {
+    year: defaultYear,
+    month: defaultMonth,
+  },
 });
 
 export const dateListState = selector({
   key: "dateListState",
   get({ get }) {
-    const { year, month } = get(yearMonthState);
+    const { year, month } = get(reportDateState);
     const tzDate = dayjs(`${year}/${month}/01`).tz();
     const tzEndtDate = tzDate.endOf("month");
     const endDay = Number(tzEndtDate.format("D"));

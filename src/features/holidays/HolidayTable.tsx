@@ -1,11 +1,11 @@
-import { useRecoilValue } from "recoil";
-import { yearMonthState, holidaysState } from "@/stores/stores";
+import { atom, useRecoilValue } from "recoil";
+import { defaultMonth, defaultYear, holidaysState } from "@/stores/stores";
 import { useFetchHolidaysByYear } from "@/hooks/hooks";
 import HolidayForm from "@/features/holidays/HolidayForm";
 import HolidayRow from "@/features/holidays/HolidayRow";
 
 export default function HolidayTable() {
-  const { year } = useRecoilValue(yearMonthState);
+  const { year } = useRecoilValue<IHolidayState>(holidayState);
   useFetchHolidaysByYear(year);
   const holidays = useRecoilValue(holidaysState);
 
@@ -35,3 +35,20 @@ export default function HolidayTable() {
     </>
   );
 }
+
+export interface IHolidayState {
+  year: string;
+  month: string;
+  day: string;
+  name: string;
+}
+
+export const holidayState = atom<IHolidayState>({
+  key: "holidayState",
+  default: {
+    year: defaultYear,
+    month: defaultMonth,
+    day: "01",
+    name: "",
+  },
+});

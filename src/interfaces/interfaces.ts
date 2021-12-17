@@ -26,3 +26,8 @@ export interface IReport {
   reason: string;
   isChanged: boolean | undefined;
 }
+
+export interface IReportState {
+  year: string;
+  month: string;
+}

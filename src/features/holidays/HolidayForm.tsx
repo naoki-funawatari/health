@@ -1,12 +1,13 @@
 import { useMemo, forwardRef } from "react";
-import { atom, selector, useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { selector, useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useForm, UseFormRegisterReturn } from "react-hook-form";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { defaultYear, defaultMonth } from "@/stores/stores";
+import { defaultYear } from "@/stores/stores";
 import { useRegisterHolidays } from "@/hooks/hooks";
 import { IHolidays } from "@/interfaces/interfaces";
+import { IHolidayState, holidayState } from "@/features/holidays/HolidayTable";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -62,23 +63,6 @@ function useDays(year: string, month: string) {
     return [...Array(endDay)].map((_, i) => `${i + 1}`.padStart(2, "0"));
   }, [year, month]);
 }
-
-interface IHolidayState {
-  year: string;
-  month: string;
-  day: string;
-  name: string;
-}
-
-const holidayState = atom<IHolidayState>({
-  key: "holidayState",
-  default: {
-    year: defaultYear,
-    month: defaultMonth,
-    day: "01",
-    name: "",
-  },
-});
 
 const newHolidayState = selector<IHolidays>({
   key: "newHolidayState",
