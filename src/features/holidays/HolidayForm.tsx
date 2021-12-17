@@ -1,20 +1,44 @@
-import { useState, useMemo } from "react";
-import { useRecoilState } from "recoil";
-import { useForm } from "react-hook-form";
+import { useMemo, forwardRef } from "react";
+import { atom, selector, useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { useForm, UseFormRegisterReturn } from "react-hook-form";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { yearMonthState, defaultYear, defaultMonth } from "@/stores/stores";
+import { defaultYear, defaultMonth } from "@/stores/stores";
 import { useRegisterHolidays } from "@/hooks/hooks";
+import { IHolidays } from "@/interfaces/interfaces";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Tokyo");
 
-interface IHolidayForm {
-  month: string;
-  day: string;
-  name: string;
+export default function HolidayForm() {
+  const holiday = useRecoilValue<IHolidays>(newHolidayState);
+  const resetHoliday = useResetRecoilState(holidayState);
+  const { mutate } = useRegisterHolidays({ ...holiday, id: 0 });
+  const { register, reset, handleSubmit } = useForm();
+  const onSubmit = () => {
+    mutate();
+    reset();
+    resetHoliday();
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <p>
+        <YearSelect {...register("year", { required: true })} />
+        <span>&nbsp;年&nbsp;</span>
+        <MonthSelect {...register("month", { required: true })} />
+        <span>&nbsp;月&nbsp;</span>
+        <DaySelect {...register("day", { required: true })} />
+        <span>&nbsp;日&nbsp;</span>
+        <span>&nbsp;名前&nbsp;</span>
+        <NameInput {...register("name", { required: true, maxLength: 20 })} />
+        <span>&nbsp;</span>
+        <input type="submit" value={"登録"} />
+      </p>
+    </form>
+  );
 }
 
 function useYears() {
@@ -34,88 +58,111 @@ function useDays(year: string, month: string) {
     const tzDate = dayjs(`${year}/${month}/01`).tz();
     const tzEndtDate = tzDate.endOf("month");
     const endDay = Number(tzEndtDate.format("D"));
+
     return [...Array(endDay)].map((_, i) => `${i + 1}`.padStart(2, "0"));
   }, [year, month]);
 }
 
-export default function HolidayForm() {
-  const [{ year }, setYearMonth] = useRecoilState(yearMonthState);
-  const [month, setMonth] = useState("01");
-  const [day, setDay] = useState("01");
-  const [name, setName] = useState("");
-  const years = useYears();
-  const months = useMonths();
-  const days = useDays(year, month);
-  const { register, handleSubmit } = useForm();
-  const { mutateAsync } = useRegisterHolidays({ id: 0, date: `${year}/${month}/${day}`, name });
+interface IHolidayState {
+  year: string;
+  month: string;
+  day: string;
+  name: string;
+}
 
-  async function onSubmit(data: IHolidayForm) {
-    await mutateAsync();
+const holidayState = atom<IHolidayState>({
+  key: "holidayState",
+  default: {
+    year: defaultYear,
+    month: defaultMonth,
+    day: "01",
+    name: "",
+  },
+});
 
-    setMonth("01");
-    setDay("01");
-    setName("");
-  }
+const newHolidayState = selector<IHolidays>({
+  key: "newHolidayState",
+  get: ({ get }) => {
+    const holiday = get(holidayState);
+    const id = 0;
+    const date = `${holiday.year}/${holiday.month}/${holiday.day}`;
+    const name = holiday.name;
 
-  function handleYearChanged(event: React.ChangeEvent) {
-    const yearMonth = {
-      year: (event.target as HTMLSelectElement).value,
-      month: defaultMonth,
+    return { id, date, name };
+  },
+});
+
+const YearSelect = forwardRef(
+  (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
+    const [holiday, setHoliday] = useRecoilState<IHolidayState>(holidayState);
+    const years = useYears();
+    const handleYearChanged = (event: React.ChangeEvent) => {
+      const year = (event.target as HTMLSelectElement).value;
+      setHoliday(holiday => ({ ...holiday, year, day: "01" }));
     };
 
-    setYearMonth(yearMonth);
-    setMonth("01");
-    setDay("01");
+    return (
+      <select {...props} ref={ref} value={holiday.year} onChange={handleYearChanged}>
+        {years.map(o => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    );
   }
+);
 
-  function handleMonthChanged(event: React.ChangeEvent) {
-    setMonth((event.target as HTMLSelectElement).value);
-    setDay("01");
+const MonthSelect = forwardRef(
+  (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
+    const [holiday, setHoliday] = useRecoilState<IHolidayState>(holidayState);
+    const months = useMonths();
+    const handleMonthChanged = (event: React.ChangeEvent) => {
+      const month = (event.target as HTMLSelectElement).value;
+      setHoliday(holiday => ({ ...holiday, month, day: "01" }));
+    };
+
+    return (
+      <select {...props} ref={ref} value={holiday.month} onChange={handleMonthChanged}>
+        {months.map(o => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    );
   }
+);
 
-  function handleDayChanged(event: React.ChangeEvent) {
-    setDay((event.target as HTMLSelectElement).value);
+const DaySelect = forwardRef(
+  (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
+    const [holiday, setHoliday] = useRecoilState<IHolidayState>(holidayState);
+    const days = useDays(holiday.year, holiday.month);
+    const handleDayChanged = (event: React.ChangeEvent) => {
+      const day = (event.target as HTMLSelectElement).value;
+      setHoliday(holiday => ({ ...holiday, day }));
+    };
+
+    return (
+      <select {...props} ref={ref} value={holiday.day} onChange={handleDayChanged}>
+        {days.map(o => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    );
   }
+);
 
-  function handleNameChanged(event: React.ChangeEvent) {
-    setName((event.target as HTMLSelectElement).value);
+const NameInput = forwardRef(
+  (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const [holiday, setHoliday] = useRecoilState<IHolidayState>(holidayState);
+    const handleNameChanged = (event: React.ChangeEvent) => {
+      const name = (event.target as HTMLSelectElement).value;
+      setHoliday(holiday => ({ ...holiday, name }));
+    };
+
+    return <input {...props} ref={ref} value={holiday.name} onChange={handleNameChanged} />;
   }
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <p>
-        <select value={year} onChange={handleYearChanged}>
-          {years.map(o => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <span> 年 </span>
-        <select {...register("month")} value={month} onChange={handleMonthChanged}>
-          {months.map(o => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <span> 月 </span>
-        <select {...register("day")} value={day} onChange={handleDayChanged}>
-          {days.map(o => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <span> 日&nbsp;&nbsp;名前 </span>
-        <input
-          {...register("name", { required: true, maxLength: 20 })}
-          value={name}
-          onChange={handleNameChanged}
-        />
-        <span>&nbsp;</span>
-        <input type="submit" value={"登録"} />
-      </p>
-    </form>
-  );
-}
+);
