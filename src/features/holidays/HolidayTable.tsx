@@ -1,40 +1,18 @@
-import { useRecoilValue, useResetRecoilState } from "recoil";
-import ReactModal, { Styles } from "react-modal";
+import { useRecoilValue } from "recoil";
 import { holidaysState } from "@/stores/stores";
-import { useFetchHolidaysByYear, useDeleteHolidays } from "@/hooks/hooks";
-import HolidayForm from "@/features/holidays/HolidayForm";
+import { useFetchHolidaysByYear } from "@/hooks/hooks";
+import { holidayState, IHolidayState } from "@/features/holidays/state";
 import HolidayRow from "@/features/holidays/HolidayRow";
-import { deleteDialogState, holidayState, IHolidayState } from "@/features/holidays/state";
-
-const style: Styles = {
-  overlay: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  content: {
-    position: "static",
-    inset: "auto",
-  },
-};
+import HolidayDeleteDialog from "@/features/holidays/HolidayDeleteDialog";
 
 export default function HolidayTable() {
   const { year } = useRecoilValue<IHolidayState>(holidayState);
   useFetchHolidaysByYear(year);
   const holidays = useRecoilValue(holidaysState);
-  const deleteDialog = useRecoilValue(deleteDialogState);
-  const resetDeleteDialog = useResetRecoilState(deleteDialogState);
-  const { mutate } = useDeleteHolidays(year, deleteDialog.id);
-  const handleDeleteClicked = () => {
-    mutate();
-    resetDeleteDialog();
-  };
-  const handleCancelClicked = () => resetDeleteDialog();
 
   return (
     <>
       <h2>祝祭日一覧</h2>
-      <HolidayForm />
       <table className="holidays-table">
         <thead>
           <tr>
@@ -55,14 +33,7 @@ export default function HolidayTable() {
           )}
         </tbody>
       </table>
-      <ReactModal {...{ isOpen: deleteDialog.isOpen, style }} contentLabel="Settings">
-        <p>{deleteDialog.name} を削除します。</p>
-        <div>
-          <button onClick={handleDeleteClicked}>削除</button>
-          <span>&nbsp;&nbsp;</span>
-          <button onClick={handleCancelClicked}>キャンセル</button>
-        </div>
-      </ReactModal>
+      <HolidayDeleteDialog />
     </>
   );
 }
