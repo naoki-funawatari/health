@@ -1,19 +1,9 @@
 import { useCallback } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useSetRecoilState } from "recoil";
-import {
-  fetchConditions,
-  fetchEmployees,
-  fetchHolidays,
-  fetchHolidaysByYear,
-  fetchHolidaysByMonth,
-  registerHoliday,
-  deleteHoliday,
-  fetchReports,
-  updateReports,
-} from "@/apis/apis";
-import { IConditions, IEmployee, IHolidays, IReport } from "@/interfaces/interfaces";
-import { conditionsState, employeesState, holidaysState, reportsState } from "@/stores/stores";
+import { fetchConditions, fetchEmployees, fetchReports, updateReports } from "@/apis/apis";
+import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
+import { conditionsState, employeesState, reportsState } from "@/stores/stores";
 
 export function useSyncScroll() {
   return useCallback((e: React.UIEvent) => {
@@ -41,45 +31,6 @@ export function useFetchEmployees() {
   const onSuccess = (data: IEmployee[]): void => setState(data || []);
 
   return useQuery("employees", fetchEmployees, { onSuccess });
-}
-
-export function useFetchHolidays() {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useQuery(["holidays"], fetchHolidays, { onSuccess });
-}
-
-export function useFetchHolidaysByYear(year: string) {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useQuery(["holidays", year], () => fetchHolidaysByYear(year), {
-    onSuccess,
-  });
-}
-
-export function useFetchHolidaysByMonth(year: string, month: string) {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useQuery(["holidays", year, month], () => fetchHolidaysByMonth(year, month), {
-    onSuccess,
-  });
-}
-
-export function useRegisterHolidays(holiday: IHolidays) {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useMutation(["holidays"], () => registerHoliday(holiday), { onSuccess });
-}
-
-export function useDeleteHolidays(year: string, id: number) {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useMutation(["holidays", year, id], () => deleteHoliday(year, id), { onSuccess });
 }
 
 export function useFetchReports(year: string, month: string) {

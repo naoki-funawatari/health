@@ -2,7 +2,7 @@ import { atom, selector } from "recoil";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { IConditions, IEmployee, IHolidays, IReport } from "@/interfaces/interfaces";
+import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -11,6 +11,7 @@ dayjs.tz.setDefault("Asia/Tokyo");
 const tzDate = dayjs().tz();
 export const defaultYear = tzDate.format("YYYY");
 export const defaultMonth = tzDate.format("MM");
+export const defaultDay = tzDate.format("DD");
 
 export const reportDateState = atom({
   key: "reportDateState",
@@ -60,11 +61,6 @@ export const conditionsState = atom<IConditions[]>({
 
 export const employeesState = atom<IEmployee[]>({
   key: "employeesState",
-  default: [],
-});
-
-export const holidaysState = atom<IHolidays[]>({
-  key: "holidaysState",
   default: [],
 });
 
