@@ -3,7 +3,7 @@ import { holidaysState } from "@/stores/stores";
 import { useFetchHolidaysByYear } from "@/hooks/hooks";
 import { holidayState, IHolidayState } from "@/features/holidays/state";
 import HolidayRow from "@/features/holidays/HolidayRow";
-import HolidayDeleteDialog from "@/features/holidays/HolidayDeleteDialog";
+import HolidayEditDialog from "@/features/holidays/HolidayEditDialog";
 
 export default function HolidayTable() {
   const { year } = useRecoilValue<IHolidayState>(holidayState);
@@ -33,7 +33,7 @@ export default function HolidayTable() {
           )}
         </tbody>
       </table>
-      <HolidayDeleteDialog />
+      <HolidayEditDialog />
     </>
   );
 }

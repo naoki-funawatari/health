@@ -2,8 +2,8 @@ import { atom, selector } from "recoil";
 import { IHolidays } from "@/interfaces/interfaces";
 import { defaultMonth, defaultYear } from "@/stores/stores";
 
-export const deleteDialogState = atom({
-  key: "deleteDialogState",
+export const editDialogState = atom({
+  key: "editDialogState",
   default: {
     isOpen: false,
     id: -1,
