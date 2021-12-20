@@ -1,7 +1,7 @@
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import ReactModal, { Styles } from "react-modal";
-import { useFetchHolidaysByYear, useDeleteHolidays } from "@/hooks/hooks";
-import { editDialogState, holidayState, IHolidayState } from "@/features/holidays/state";
+import { useDeleteHolidays } from "@/hooks/hooks";
+import { editDialogState } from "@/features/holidays/state";
 
 const style: Styles = {
   overlay: {
@@ -16,11 +16,9 @@ const style: Styles = {
 };
 
 export default function HolidayEditDialog() {
-  const { year } = useRecoilValue<IHolidayState>(holidayState);
-  useFetchHolidaysByYear(year);
   const eidtDialog = useRecoilValue(editDialogState);
   const resetEditDialog = useResetRecoilState(editDialogState);
-  const { mutate } = useDeleteHolidays(year, eidtDialog.id);
+  const { mutate } = useDeleteHolidays(eidtDialog.id);
   const handleEditClicked = () => {
     mutate();
     resetEditDialog();
@@ -28,7 +26,9 @@ export default function HolidayEditDialog() {
   const handleCancelClicked = () => resetEditDialog();
 
   return (
-    <ReactModal {...{ isOpen: eidtDialog.isOpen, style }} contentLabel="Settings">
+    <ReactModal {...{ isOpen: eidtDialog.isOpen, style }} contentLabel="HolidayEditDialog">
+      <h3>祝祭日修正</h3>
+      <hr />
       <p>{eidtDialog.name} を削除します。</p>
       <div>
         <button onClick={handleEditClicked}>削除</button>

@@ -5,8 +5,6 @@ import {
   fetchConditions,
   fetchEmployees,
   fetchHolidays,
-  fetchHolidaysByYear,
-  fetchHolidaysByMonth,
   registerHoliday,
   deleteHoliday,
   fetchReports,
@@ -50,24 +48,6 @@ export function useFetchHolidays() {
   return useQuery(["holidays"], fetchHolidays, { onSuccess });
 }
 
-export function useFetchHolidaysByYear(year: string) {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useQuery(["holidays", year], () => fetchHolidaysByYear(year), {
-    onSuccess,
-  });
-}
-
-export function useFetchHolidaysByMonth(year: string, month: string) {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useQuery(["holidays", year, month], () => fetchHolidaysByMonth(year, month), {
-    onSuccess,
-  });
-}
-
 export function useRegisterHolidays(holiday: IHolidays) {
   const setState = useSetRecoilState(holidaysState);
   const onSuccess = (data: IHolidays[]): void => setState(data || []);
@@ -75,11 +55,11 @@ export function useRegisterHolidays(holiday: IHolidays) {
   return useMutation(["holidays"], () => registerHoliday(holiday), { onSuccess });
 }
 
-export function useDeleteHolidays(year: string, id: number) {
+export function useDeleteHolidays(id: number) {
   const setState = useSetRecoilState(holidaysState);
   const onSuccess = (data: IHolidays[]): void => setState(data || []);
 
-  return useMutation(["holidays", year, id], () => deleteHoliday(year, id), { onSuccess });
+  return useMutation(["holidays", id], () => deleteHoliday(id), { onSuccess });
 }
 
 export function useFetchReports(year: string, month: string) {

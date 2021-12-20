@@ -1,13 +1,11 @@
 import { useRecoilValue } from "recoil";
 import { holidaysState } from "@/stores/stores";
-import { useFetchHolidaysByYear } from "@/hooks/hooks";
-import { holidayState, IHolidayState } from "@/features/holidays/state";
+import { useFetchHolidays } from "@/hooks/hooks";
 import HolidayRow from "@/features/holidays/HolidayRow";
 import HolidayEditDialog from "@/features/holidays/HolidayEditDialog";
 
 export default function HolidayTable() {
-  const { year } = useRecoilValue<IHolidayState>(holidayState);
-  useFetchHolidaysByYear(year);
+  useFetchHolidays();
   const holidays = useRecoilValue(holidaysState);
 
   return (
