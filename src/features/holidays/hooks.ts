@@ -1,8 +1,13 @@
 import { useMemo } from "react";
+import { useQuery, useMutation } from "react-query";
+import { useSetRecoilState } from "recoil";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { defaultYear } from "@/stores/stores";
+import { fetchHolidays, registerHoliday, deleteHoliday } from "@/apis/apis";
+import { IHolidays } from "@/interfaces/interfaces";
+import { holidaysState } from "@/features/holidays/stores";
 
 export function useYears() {
   const years = useMemo(() => {
@@ -33,4 +38,25 @@ export function useDays(year: string, month: string) {
   }, [year, month]);
 
   return days;
+}
+
+export function useFetchHolidays() {
+  const setState = useSetRecoilState(holidaysState);
+  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+
+  return useQuery(["holidays"], fetchHolidays, { onSuccess });
+}
+
+export function useRegisterHolidays(holiday: IHolidays) {
+  const setState = useSetRecoilState(holidaysState);
+  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+
+  return useMutation(["holidays"], () => registerHoliday(holiday), { onSuccess });
+}
+
+export function useDeleteHolidays(id: number) {
+  const setState = useSetRecoilState(holidaysState);
+  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+
+  return useMutation(["holidays", id], () => deleteHoliday(id), { onSuccess });
 }

@@ -1,8 +1,8 @@
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
-import { useRegisterHolidays } from "@/hooks/hooks";
 import { IHolidays } from "@/interfaces/interfaces";
 import { holidayState, newHolidayState } from "@/features/holidays/stores";
+import { useRegisterHolidays } from "@/features/holidays/hooks";
 import {
   FormYearSelect,
   FormMonthSelect,

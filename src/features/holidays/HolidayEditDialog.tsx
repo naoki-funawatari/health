@@ -1,7 +1,7 @@
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import ReactModal, { Styles } from "react-modal";
-import { useDeleteHolidays } from "@/hooks/hooks";
 import { editDialogState } from "@/features/holidays/stores";
+import { useDeleteHolidays } from "@/features/holidays/hooks";
 
 const style: Styles = {
   overlay: {

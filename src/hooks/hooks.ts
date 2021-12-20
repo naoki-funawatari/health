@@ -1,18 +1,9 @@
 import { useCallback } from "react";
 import { useQuery, useMutation } from "react-query";
 import { useSetRecoilState } from "recoil";
-import {
-  fetchConditions,
-  fetchEmployees,
-  fetchHolidays,
-  registerHoliday,
-  deleteHoliday,
-  fetchReports,
-  updateReports,
-} from "@/apis/apis";
-import { IConditions, IEmployee, IHolidays, IReport } from "@/interfaces/interfaces";
+import { fetchConditions, fetchEmployees, fetchReports, updateReports } from "@/apis/apis";
+import { IConditions, IEmployee, IReport } from "@/interfaces/interfaces";
 import { conditionsState, employeesState, reportsState } from "@/stores/stores";
-import { holidaysState } from "@/features/holidays/stores";
 
 export function useSyncScroll() {
   return useCallback((e: React.UIEvent) => {
@@ -40,27 +31,6 @@ export function useFetchEmployees() {
   const onSuccess = (data: IEmployee[]): void => setState(data || []);
 
   return useQuery("employees", fetchEmployees, { onSuccess });
-}
-
-export function useFetchHolidays() {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useQuery(["holidays"], fetchHolidays, { onSuccess });
-}
-
-export function useRegisterHolidays(holiday: IHolidays) {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useMutation(["holidays"], () => registerHoliday(holiday), { onSuccess });
-}
-
-export function useDeleteHolidays(id: number) {
-  const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
-
-  return useMutation(["holidays", id], () => deleteHoliday(id), { onSuccess });
 }
 
 export function useFetchReports(year: string, month: string) {

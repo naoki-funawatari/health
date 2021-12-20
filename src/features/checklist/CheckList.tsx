@@ -1,4 +1,5 @@
-import { useFetchConditions, useFetchEmployees, useFetchHolidays } from "@/hooks/hooks";
+import { useFetchConditions, useFetchEmployees } from "@/hooks/hooks";
+import { useFetchHolidays } from "@/features/holidays/hooks";
 import Blank from "@/components/Blank";
 import MonthLabel from "@/features/checklist/MonthLabel";
 import DateList from "@/features/checklist/DateList";
