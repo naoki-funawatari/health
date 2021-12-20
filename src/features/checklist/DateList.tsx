@@ -1,5 +1,6 @@
 import { useRecoilValue } from "recoil";
-import { dateListState, holidaysState } from "@/stores/stores";
+import { dateListState } from "@/stores/stores";
+import { holidaysState } from "@/features/holidays/stores";
 
 interface IObjectAccessor {
   [key: string]: string;

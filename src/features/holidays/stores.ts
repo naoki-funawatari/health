@@ -1,6 +1,25 @@
 import { atom, selector } from "recoil";
 import { IHolidays } from "@/interfaces/interfaces";
-import { defaultMonth, defaultYear } from "@/stores/stores";
+import { defaultMonth, defaultYear, defaultDay } from "@/stores/stores";
+
+export const holidayTableState = atom({
+  key: "holidayTableState",
+  default: { year: defaultYear },
+});
+
+export const holidaysState = atom<IHolidays[]>({
+  key: "holidaysState",
+  default: [],
+});
+
+export const filteredHolidaysState = selector({
+  key: "filteredHolidaysState",
+  get: ({ get }) => {
+    const holidays = get(holidaysState);
+    const { year } = get(holidayTableState);
+    return holidays.filter(o => o.date.startsWith(year));
+  },
+});
 
 export const editDialogState = atom({
   key: "editDialogState",
@@ -23,7 +42,7 @@ export const holidayState = atom<IHolidayState>({
   default: {
     year: defaultYear,
     month: defaultMonth,
-    day: "01",
+    day: defaultDay,
     name: "",
   },
 });

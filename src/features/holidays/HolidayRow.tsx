@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil";
 import { IHolidays } from "@/interfaces/interfaces";
-import { editDialogState } from "@/features/holidays/state";
+import { editDialogState } from "@/features/holidays/stores";
 
 export default function HolidayRow({ id, date, name }: IHolidays) {
   const setEditDialog = useSetRecoilState(editDialogState);

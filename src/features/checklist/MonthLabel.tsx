@@ -1,12 +1,11 @@
 import { useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { defaultYear, reportDateState } from "@/stores/stores";
-import { useFetchHolidays, useFetchReports } from "@/hooks/hooks";
+import { useFetchReports } from "@/hooks/hooks";
 
 export default function MonthLabel() {
   const { year, month } = useRecoilValue(reportDateState);
   useFetchReports(year, month);
-  useFetchHolidays();
 
   return (
     <div className="month-label">

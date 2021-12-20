@@ -2,12 +2,12 @@ import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { useRegisterHolidays } from "@/hooks/hooks";
 import { IHolidays } from "@/interfaces/interfaces";
-import { holidayState, newHolidayState } from "@/features/holidays/state";
+import { holidayState, newHolidayState } from "@/features/holidays/stores";
 import {
-  YearSelect,
-  MonthSelect,
-  DaySelect,
-  NameInput,
+  FormYearSelect,
+  FormMonthSelect,
+  FormDaySelect,
+  FormNameInput,
 } from "@/features/holidays/HolidayFormParts";
 
 export default function HolidayForm() {
@@ -24,14 +24,14 @@ export default function HolidayForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p>
-        <YearSelect {...register("year", { required: true })} />
+        <FormYearSelect {...register("year", { required: true })} />
         <span>&nbsp;年&nbsp;</span>
-        <MonthSelect {...register("month", { required: true })} />
+        <FormMonthSelect {...register("month", { required: true })} />
         <span>&nbsp;月&nbsp;</span>
-        <DaySelect {...register("day", { required: true })} />
+        <FormDaySelect {...register("day", { required: true })} />
         <span>&nbsp;日&nbsp;</span>
         <span>&nbsp;名前&nbsp;</span>
-        <NameInput {...register("name", { required: true, maxLength: 20 })} />
+        <FormNameInput {...register("name", { required: true, maxLength: 20 })} />
         <span>&nbsp;</span>
         <input type="submit" value={"登録"} />
       </p>

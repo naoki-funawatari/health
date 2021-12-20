@@ -11,7 +11,8 @@ import {
   updateReports,
 } from "@/apis/apis";
 import { IConditions, IEmployee, IHolidays, IReport } from "@/interfaces/interfaces";
-import { conditionsState, employeesState, holidaysState, reportsState } from "@/stores/stores";
+import { conditionsState, employeesState, reportsState } from "@/stores/stores";
+import { holidaysState } from "@/features/holidays/stores";
 
 export function useSyncScroll() {
   return useCallback((e: React.UIEvent) => {

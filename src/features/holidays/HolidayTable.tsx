@@ -1,16 +1,18 @@
-import { useRecoilValue } from "recoil";
-import { holidaysState } from "@/stores/stores";
-import { useFetchHolidays } from "@/hooks/hooks";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { holidayTableState, filteredHolidaysState } from "@/features/holidays/stores";
+import { useYears } from "@/features/holidays/hooks";
 import HolidayRow from "@/features/holidays/HolidayRow";
 import HolidayEditDialog from "@/features/holidays/HolidayEditDialog";
 
 export default function HolidayTable() {
-  useFetchHolidays();
-  const holidays = useRecoilValue(holidaysState);
+  const holidays = useRecoilValue(filteredHolidaysState);
 
   return (
     <>
       <h2>祝祭日一覧</h2>
+      <p>
+        <TableYearSelect />
+      </p>
       <table className="holidays-table">
         <thead>
           <tr>
@@ -33,5 +35,24 @@ export default function HolidayTable() {
       </table>
       <HolidayEditDialog />
     </>
+  );
+}
+
+export function TableYearSelect() {
+  const [holidayTable, setHolidayTable] = useRecoilState(holidayTableState);
+  const years = useYears();
+  const handleYearChanged = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const year = event.target.value;
+    setHolidayTable(holidayTable => ({ ...holidayTable, year, day: "01" }));
+  };
+
+  return (
+    <select value={holidayTable.year} onChange={handleYearChanged}>
+      {years.map(o => (
+        <option key={o} value={o}>
+          {o}
+        </option>
+      ))}
+    </select>
   );
 }
