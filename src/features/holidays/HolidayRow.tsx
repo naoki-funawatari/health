@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil";
 import { IHolidays } from "@/interfaces/interfaces";
-import { deleteDialogState } from "@/features/holidays/HolidayTable";
+import { deleteDialogState } from "@/features/holidays/state";
 
 export default function HolidayRow({ id, date, name }: IHolidays) {
   const setDeleteDialog = useSetRecoilState(deleteDialogState);

@@ -1,9 +1,10 @@
-import { atom, useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import ReactModal, { Styles } from "react-modal";
-import { defaultMonth, defaultYear, holidaysState } from "@/stores/stores";
+import { holidaysState } from "@/stores/stores";
 import { useFetchHolidaysByYear, useDeleteHolidays } from "@/hooks/hooks";
 import HolidayForm from "@/features/holidays/HolidayForm";
 import HolidayRow from "@/features/holidays/HolidayRow";
+import { deleteDialogState, holidayState, IHolidayState } from "@/features/holidays/state";
 
 const style: Styles = {
   overlay: {
@@ -65,29 +66,3 @@ export default function HolidayTable() {
     </>
   );
 }
-
-export const deleteDialogState = atom({
-  key: "deleteDialogState",
-  default: {
-    isOpen: false,
-    id: -1,
-    name: "",
-  },
-});
-
-export interface IHolidayState {
-  year: string;
-  month: string;
-  day: string;
-  name: string;
-}
-
-export const holidayState = atom<IHolidayState>({
-  key: "holidayState",
-  default: {
-    year: defaultYear,
-    month: defaultMonth,
-    day: "01",
-    name: "",
-  },
-});
