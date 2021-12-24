@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { defaultYear } from "@/stores/stores";
-import { fetchHolidays, registerHoliday, deleteHoliday } from "@/apis/apis";
+import { fetchHolidays, registerHoliday, updateHoliday, deleteHoliday } from "@/apis/apis";
 import { IHolidays } from "@/interfaces/interfaces";
 import { holidaysState } from "@/features/holidays/stores";
 
@@ -52,6 +52,13 @@ export function useRegisterHolidays(holiday: IHolidays) {
   const onSuccess = (data: IHolidays[]): void => setState(data || []);
 
   return useMutation(["holidays"], () => registerHoliday(holiday), { onSuccess });
+}
+
+export function useUpdateHolidays(id: number, name: string) {
+  const setState = useSetRecoilState(holidaysState);
+  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+
+  return useMutation(["holidays", id], () => updateHoliday(id, name), { onSuccess });
 }
 
 export function useDeleteHolidays(id: number) {

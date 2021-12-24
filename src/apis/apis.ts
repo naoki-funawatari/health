@@ -21,6 +21,11 @@ export async function registerHoliday(holiday: IHolidays) {
   return data;
 }
 
+export async function updateHoliday(id: number, name: string) {
+  const { data } = await axios.patch<Promise<IHolidays[]>>(`holidays/${id}`, { data: name });
+  return data;
+}
+
 export async function deleteHoliday(id: number) {
   const { data } = await axios.delete<Promise<IHolidays[]>>(`holidays/${id}`);
   return data;
