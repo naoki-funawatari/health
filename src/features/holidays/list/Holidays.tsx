@@ -1,7 +1,7 @@
 import { useFetchHolidays } from "@/features/holidays/hooks";
 import HolidayTableYearSelect from "@/features/holidays/list/HolidayTableYearSelect";
 import HolidayTable from "@/features/holidays/list/HolidayTable";
-import HolidayEditDialog from "@/features/holidays/HolidayEditDialog";
+import HolidayEditDialog from "@/features/holidays/edit/HolidayEditDialog";
 
 export default function Holidays() {
   useFetchHolidays();
