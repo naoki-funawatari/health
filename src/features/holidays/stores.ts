@@ -30,15 +30,19 @@ export const editDialogState = atom({
   },
 });
 
-export const registerDialogState = atom({
-  key: "registerDialogState",
-  default: {
+export const registerDialogInitailState = () => {
+  return {
     isOpen: false,
     year: defaultYear,
     month: defaultMonth,
     day: defaultDay,
     name: "",
-  },
+  };
+};
+
+export const registerDialogState = atom({
+  key: "registerDialogState",
+  default: registerDialogInitailState(),
 });
 
 export const newHolidayState = selector<IHoliday>({

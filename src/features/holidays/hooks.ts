@@ -47,11 +47,11 @@ export function useFetchHolidays() {
   return useQuery(["holidays"], fetchHolidays, { onSuccess });
 }
 
-export function useRegisterHolidays(holiday: IHoliday) {
+export function useRegisterHoliday() {
   const setState = useSetRecoilState(holidaysState);
   const onSuccess = (data: IHoliday[]): void => setState(data || []);
 
-  return useMutation(["holidays"], () => registerHoliday(holiday), { onSuccess });
+  return useMutation(["holidays"], (holiday: IHoliday) => registerHoliday(holiday), { onSuccess });
 }
 
 export function useUpdateHolidays(id: number, name: string) {

@@ -1,15 +1,15 @@
-import { forwardRef } from "react";
+import React from "react";
 import { useRecoilState } from "recoil";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { useYears, useMonths, useDays } from "@/features/holidays/hooks";
 import { registerDialogState } from "@/features/holidays/stores";
+import { useYears, useMonths, useDays } from "@/features/holidays/hooks";
 
-export const FormYearSelect = forwardRef(
+export const FormYearSelect = React.forwardRef(
   (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
     const [holiday, setHoliday] = useRecoilState(registerDialogState);
     const years = useYears();
-    const handleYearChanged = (event: React.ChangeEvent) => {
-      const year = (event.target as HTMLSelectElement).value;
+    const handleYearChanged = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const year = event.target.value;
       setHoliday(holiday => ({ ...holiday, year, day: "01" }));
     };
 
@@ -25,12 +25,12 @@ export const FormYearSelect = forwardRef(
   }
 );
 
-export const FormMonthSelect = forwardRef(
+export const FormMonthSelect = React.forwardRef(
   (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
     const [holiday, setHoliday] = useRecoilState(registerDialogState);
     const months = useMonths();
-    const handleMonthChanged = (event: React.ChangeEvent) => {
-      const month = (event.target as HTMLSelectElement).value;
+    const handleMonthChanged = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const month = event.target.value;
       setHoliday(holiday => ({ ...holiday, month, day: "01" }));
     };
 
@@ -46,12 +46,12 @@ export const FormMonthSelect = forwardRef(
   }
 );
 
-export const FormDaySelect = forwardRef(
+export const FormDaySelect = React.forwardRef(
   (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
     const [holiday, setHoliday] = useRecoilState(registerDialogState);
     const days = useDays(holiday.year, holiday.month);
-    const handleDayChanged = (event: React.ChangeEvent) => {
-      const day = (event.target as HTMLSelectElement).value;
+    const handleDayChanged = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const day = event.target.value;
       setHoliday(holiday => ({ ...holiday, day }));
     };
 
@@ -67,11 +67,11 @@ export const FormDaySelect = forwardRef(
   }
 );
 
-export const FormNameInput = forwardRef(
+export const FormNameInput = React.forwardRef(
   (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLInputElement>) => {
     const [holiday, setHoliday] = useRecoilState(registerDialogState);
-    const handleNameChanged = (event: React.ChangeEvent) => {
-      const name = (event.target as HTMLSelectElement).value;
+    const handleNameChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const name = event.target.value;
       setHoliday(holiday => ({ ...holiday, name }));
     };
 
