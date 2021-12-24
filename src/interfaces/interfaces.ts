@@ -12,7 +12,7 @@ export interface IEmployee {
   name: string;
 }
 
-export interface IHolidays {
+export interface IHoliday {
   id: number;
   date: string;
   name: string;

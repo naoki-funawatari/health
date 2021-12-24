@@ -1,7 +1,7 @@
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
-import { IHolidays } from "@/interfaces/interfaces";
-import { holidayState, newHolidayState } from "@/features/holidays/stores";
+import { IHoliday } from "@/interfaces/interfaces";
+import { registerDialogState, newHolidayState } from "@/features/holidays/stores";
 import { useRegisterHolidays } from "@/features/holidays/hooks";
 import {
   FormYearSelect,
@@ -11,8 +11,8 @@ import {
 } from "@/features/holidays/HolidayFormParts";
 
 export default function HolidayForm() {
-  const holiday = useRecoilValue<IHolidays>(newHolidayState);
-  const resetHoliday = useResetRecoilState(holidayState);
+  const holiday = useRecoilValue<IHoliday>(newHolidayState);
+  const resetHoliday = useResetRecoilState(registerDialogState);
   const { mutate } = useRegisterHolidays({ ...holiday, id: 0 });
   const { register, reset, handleSubmit } = useForm();
   const onSubmit = () => {

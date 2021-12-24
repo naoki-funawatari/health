@@ -6,7 +6,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { defaultYear } from "@/stores/stores";
 import { fetchHolidays, registerHoliday, updateHoliday, deleteHoliday } from "@/apis/apis";
-import { IHolidays } from "@/interfaces/interfaces";
+import { IHoliday } from "@/interfaces/interfaces";
 import { holidaysState } from "@/features/holidays/stores";
 
 export function useYears() {
@@ -42,28 +42,28 @@ export function useDays(year: string, month: string) {
 
 export function useFetchHolidays() {
   const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+  const onSuccess = (data: IHoliday[]): void => setState(data || []);
 
   return useQuery(["holidays"], fetchHolidays, { onSuccess });
 }
 
-export function useRegisterHolidays(holiday: IHolidays) {
+export function useRegisterHolidays(holiday: IHoliday) {
   const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+  const onSuccess = (data: IHoliday[]): void => setState(data || []);
 
   return useMutation(["holidays"], () => registerHoliday(holiday), { onSuccess });
 }
 
 export function useUpdateHolidays(id: number, name: string) {
   const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+  const onSuccess = (data: IHoliday[]): void => setState(data || []);
 
   return useMutation(["holidays", id], () => updateHoliday(id, name), { onSuccess });
 }
 
 export function useDeleteHolidays(id: number) {
   const setState = useSetRecoilState(holidaysState);
-  const onSuccess = (data: IHolidays[]): void => setState(data || []);
+  const onSuccess = (data: IHoliday[]): void => setState(data || []);
 
   return useMutation(["holidays", id], () => deleteHoliday(id), { onSuccess });
 }

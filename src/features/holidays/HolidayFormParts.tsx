@@ -2,11 +2,11 @@ import { forwardRef } from "react";
 import { useRecoilState } from "recoil";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { useYears, useMonths, useDays } from "@/features/holidays/hooks";
-import { holidayState, IHolidayState } from "@/features/holidays/stores";
+import { registerDialogState } from "@/features/holidays/stores";
 
 export const FormYearSelect = forwardRef(
   (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
-    const [holiday, setHoliday] = useRecoilState<IHolidayState>(holidayState);
+    const [holiday, setHoliday] = useRecoilState(registerDialogState);
     const years = useYears();
     const handleYearChanged = (event: React.ChangeEvent) => {
       const year = (event.target as HTMLSelectElement).value;
@@ -27,7 +27,7 @@ export const FormYearSelect = forwardRef(
 
 export const FormMonthSelect = forwardRef(
   (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
-    const [holiday, setHoliday] = useRecoilState<IHolidayState>(holidayState);
+    const [holiday, setHoliday] = useRecoilState(registerDialogState);
     const months = useMonths();
     const handleMonthChanged = (event: React.ChangeEvent) => {
       const month = (event.target as HTMLSelectElement).value;
@@ -48,7 +48,7 @@ export const FormMonthSelect = forwardRef(
 
 export const FormDaySelect = forwardRef(
   (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLSelectElement>) => {
-    const [holiday, setHoliday] = useRecoilState<IHolidayState>(holidayState);
+    const [holiday, setHoliday] = useRecoilState(registerDialogState);
     const days = useDays(holiday.year, holiday.month);
     const handleDayChanged = (event: React.ChangeEvent) => {
       const day = (event.target as HTMLSelectElement).value;
@@ -69,7 +69,7 @@ export const FormDaySelect = forwardRef(
 
 export const FormNameInput = forwardRef(
   (props: UseFormRegisterReturn, ref: React.ForwardedRef<HTMLInputElement>) => {
-    const [holiday, setHoliday] = useRecoilState<IHolidayState>(holidayState);
+    const [holiday, setHoliday] = useRecoilState(registerDialogState);
     const handleNameChanged = (event: React.ChangeEvent) => {
       const name = (event.target as HTMLSelectElement).value;
       setHoliday(holiday => ({ ...holiday, name }));
