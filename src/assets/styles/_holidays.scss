@@ -1,0 +1,21 @@
+.holiday-table-wrap {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  row-gap: 5px;
+
+  .holiday-table-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    div {
+      padding: {
+        left: 10px;
+        right: 10px;
+        top: 5px;
+        bottom: 5px;
+      }
+    }
+  }
+}

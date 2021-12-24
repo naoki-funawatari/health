@@ -12,15 +12,19 @@ export default function Holidays() {
   const handleRegisterClicked = () => setRegisterDialog(state => ({ ...state, isOpen: true }));
 
   return (
-    <>
-      <h2>祝祭日一覧</h2>
-      <HolidayTableYearSelect />
-      <div>
-        <button onClick={handleRegisterClicked}>登録</button>
+    <div className="holiday-table-wrap">
+      <h2 className="holiday-table-title">祝祭日一覧</h2>
+      <div className="holiday-table-select">
+        <div>
+          <HolidayTableYearSelect />
+        </div>
+        <div>
+          <button onClick={handleRegisterClicked}>登録</button>
+        </div>
       </div>
       <HolidayTable />
       <HolidayEditDialog />
       <HolidayRegisterDialog />
-    </>
+    </div>
   );
 }

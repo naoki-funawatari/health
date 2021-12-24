@@ -11,14 +11,12 @@ export default function HolidayTableYearSelect() {
   };
 
   return (
-    <p>
-      <select value={holidayTable.year} onChange={handleYearChanged}>
-        {years.map(o => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
-    </p>
+    <select value={holidayTable.year} onChange={handleYearChanged}>
+      {years.map(o => (
+        <option key={o} value={o}>
+          {o}
+        </option>
+      ))}
+    </select>
   );
 }
