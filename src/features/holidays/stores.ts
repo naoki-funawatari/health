@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { IHolidays } from "@/interfaces/interfaces";
+import { IHoliday } from "@/interfaces/interfaces";
 import { defaultMonth, defaultYear, defaultDay } from "@/stores/stores";
 
 export const holidayTableState = atom({
@@ -7,7 +7,7 @@ export const holidayTableState = atom({
   default: { year: defaultYear },
 });
 
-export const holidaysState = atom<IHolidays[]>({
+export const holidaysState = atom<IHoliday[]>({
   key: "holidaysState",
   default: [],
 });
@@ -30,27 +30,25 @@ export const editDialogState = atom({
   },
 });
 
-export interface IHolidayState {
-  year: string;
-  month: string;
-  day: string;
-  name: string;
-}
-
-export const holidayState = atom<IHolidayState>({
-  key: "holidayState",
-  default: {
+export const registerDialogInitailState = () => {
+  return {
+    isOpen: false,
     year: defaultYear,
     month: defaultMonth,
     day: defaultDay,
     name: "",
-  },
+  };
+};
+
+export const registerDialogState = atom({
+  key: "registerDialogState",
+  default: registerDialogInitailState(),
 });
 
-export const newHolidayState = selector<IHolidays>({
+export const newHolidayState = selector<IHoliday>({
   key: "newHolidayState",
   get: ({ get }) => {
-    const holiday = get(holidayState);
+    const holiday = get(registerDialogState);
     const id = 0;
     const date = `${holiday.year}/${holiday.month}/${holiday.day}`;
     const name = holiday.name;

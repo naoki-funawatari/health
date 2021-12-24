@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IConditions, IEmployee, IHolidays, IReport } from "@/interfaces/interfaces";
+import { IConditions, IEmployee, IHoliday, IReport } from "@/interfaces/interfaces";
 
 export async function fetchConditions() {
   const { data } = await axios.get<Promise<IConditions[]>>("conditions");
@@ -12,17 +12,22 @@ export async function fetchEmployees() {
 }
 
 export async function fetchHolidays() {
-  const { data } = await axios.get<Promise<IHolidays[]>>("holidays");
+  const { data } = await axios.get<Promise<IHoliday[]>>("holidays");
   return data;
 }
 
-export async function registerHoliday(holiday: IHolidays) {
-  const { data } = await axios.post<Promise<IHolidays[]>>("holidays", holiday);
+export async function registerHoliday(holiday: IHoliday) {
+  const { data } = await axios.post<Promise<IHoliday[]>>("holidays", holiday);
+  return data;
+}
+
+export async function updateHoliday(id: number, name: string) {
+  const { data } = await axios.patch<Promise<IHoliday[]>>(`holidays/${id}`, { data: name });
   return data;
 }
 
 export async function deleteHoliday(id: number) {
-  const { data } = await axios.delete<Promise<IHolidays[]>>(`holidays/${id}`);
+  const { data } = await axios.delete<Promise<IHoliday[]>>(`holidays/${id}`);
   return data;
 }
 
