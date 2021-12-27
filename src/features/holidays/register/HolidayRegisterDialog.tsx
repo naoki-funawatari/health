@@ -89,9 +89,7 @@ export default function HolidayRegisterDialog() {
         <br />
         <br />
         <span>&nbsp;名前&nbsp;</span>
-        <FormNameInput
-          {...register("name", { required: true, maxLength: 20, onChange: () => {} })}
-        />
+        <FormNameInput {...register("name", { required: true, maxLength: 20 })} />
         <br />
         <br />
         <input type="submit" value={"登録"} />

@@ -1,8 +1,11 @@
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import ReactModal, { Styles } from "react-modal";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { IHoliday } from "@/interfaces/interfaces";
 import { editDialogState } from "@/features/holidays/stores";
 import { useUpdateHolidays, useDeleteHolidays } from "@/features/holidays/hooks";
-import React from "react";
+import { FormNameInput } from "@/features/holidays/edit/HolidayEditParts";
 
 const style: Styles = {
   overlay: {
@@ -17,26 +20,40 @@ const style: Styles = {
 };
 
 export default function HolidayEditDialog() {
-  const [eidtDialog, setEidtDialog] = useRecoilState(editDialogState);
+  const eidtDialog = useRecoilValue(editDialogState);
   const resetEditDialog = useResetRecoilState(editDialogState);
+  const { register, reset, handleSubmit, setValue, getValues } = useForm({
+    defaultValues: { name: "" },
+  });
 
-  // 祝祭日名の入力
-  const handleHolidayNameChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEidtDialog(val => ({ ...val, name: event.target.value }));
-  };
+  useEffect(() => {
+    setValue("name", eidtDialog.name);
+  }, [setValue, eidtDialog]);
 
   // 祝祭日の更新
-  const { mutate: updateMutate } = useUpdateHolidays(eidtDialog.id, eidtDialog.name);
-  const handleUpdateClicked = () => {
-    updateMutate();
+  const { mutate: updateMutate } = useUpdateHolidays();
+  const handleFormSubmitted: SubmitHandler<{}> = () => {
+    const holiday: IHoliday = {
+      id: eidtDialog.id,
+      date: "",
+      name: getValues("name"),
+    };
+    updateMutate(holiday);
     resetEditDialog();
+    reset();
   };
 
   // 祝祭日の削除
-  const { mutate: deleteMutate } = useDeleteHolidays(eidtDialog.id);
+  const { mutate: deleteMutate } = useDeleteHolidays();
   const handleDeleteClicked = () => {
-    deleteMutate();
+    const holiday: IHoliday = {
+      id: eidtDialog.id,
+      date: "",
+      name: "",
+    };
+    deleteMutate(holiday);
     resetEditDialog();
+    reset();
   };
 
   // 修正のキャンセル
@@ -46,20 +63,18 @@ export default function HolidayEditDialog() {
     <ReactModal {...{ isOpen: eidtDialog.isOpen, style }} contentLabel="HolidayEditDialog">
       <h3>祝祭日修正</h3>
       <hr />
-      <div>
-        <label>
-          名前：
-          <input type="text" value={eidtDialog.name} onChange={handleHolidayNameChanged} />
-        </label>
-      </div>
       <br />
-      <div>
-        <button onClick={handleUpdateClicked}>更新</button>
+      <form onSubmit={handleSubmit(handleFormSubmitted)}>
+        <span>&nbsp;名前&nbsp;</span>
+        <FormNameInput {...register("name", { required: true, maxLength: 20 })} />
+        <br />
+        <br />
+        <input type="submit" value={"更新"} />
         <span>&nbsp;&nbsp;</span>
         <button onClick={handleDeleteClicked}>削除</button>
         <span>&nbsp;&nbsp;</span>
         <button onClick={handleCancelClicked}>キャンセル</button>
-      </div>
+      </form>
     </ReactModal>
   );
 }

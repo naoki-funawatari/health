@@ -54,16 +54,18 @@ export function useRegisterHoliday() {
   return useMutation(["holidays"], (holiday: IHoliday) => registerHoliday(holiday), { onSuccess });
 }
 
-export function useUpdateHolidays(id: number, name: string) {
+export function useUpdateHolidays() {
   const setState = useSetRecoilState(holidaysState);
   const onSuccess = (data: IHoliday[]): void => setState(data || []);
 
-  return useMutation(["holidays", id], () => updateHoliday(id, name), { onSuccess });
+  return useMutation(["holidays"], (holiday: IHoliday) => updateHoliday(holiday.id, holiday.name), {
+    onSuccess,
+  });
 }
 
-export function useDeleteHolidays(id: number) {
+export function useDeleteHolidays() {
   const setState = useSetRecoilState(holidaysState);
   const onSuccess = (data: IHoliday[]): void => setState(data || []);
 
-  return useMutation(["holidays", id], () => deleteHoliday(id), { onSuccess });
+  return useMutation(["holidays"], (holiday: IHoliday) => deleteHoliday(holiday.id), { onSuccess });
 }
