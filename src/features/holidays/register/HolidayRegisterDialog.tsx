@@ -36,7 +36,7 @@ export default function HolidayRegisterDialog() {
   const registerDialog = useRecoilValue(registerDialogState);
   const resetRegisterDialog = useResetRecoilState(registerDialogState);
   const { mutate } = useRegisterHoliday();
-  const { register, reset, handleSubmit, setValue, getValues } = useForm({
+  const { register, reset, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       year: defaultYear,
       month: defaultMonth,
@@ -44,8 +44,6 @@ export default function HolidayRegisterDialog() {
       name: "",
     },
   });
-  const year = getValues("year");
-  const month = getValues("month");
   const handleFormSubmitted: SubmitHandler<Inputs> = data => {
     const { year, month, day, name } = data;
     const holiday: IHoliday = {
@@ -84,7 +82,7 @@ export default function HolidayRegisterDialog() {
         <FormMonthSelect {...register("month", { required: true, onChange: handleMonthChanged })} />
         <span>&nbsp;月&nbsp;</span>
         <FormDaySelect
-          {...{ year, month }}
+          {...{ year: watch("year"), month: watch("month") }}
           {...register("day", { required: true, onChange: handleDayChanged })}
         />
         <span>&nbsp;日&nbsp;</span>
