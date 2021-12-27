@@ -1,8 +1,10 @@
+import { useCallback } from "react";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import ReactModal, { Styles } from "react-modal";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { defaultYear, defaultMonth, defaultDay } from "@/stores/stores";
 import { IHoliday } from "@/interfaces/interfaces";
-import { registerDialogInitailState, registerDialogState } from "@/features/holidays/stores";
+import { registerDialogState } from "@/features/holidays/stores";
 import { useRegisterHoliday } from "@/features/holidays/hooks";
 import {
   FormYearSelect,
@@ -34,7 +36,14 @@ export default function HolidayRegisterDialog() {
   const registerDialog = useRecoilValue(registerDialogState);
   const resetRegisterDialog = useResetRecoilState(registerDialogState);
   const { mutate } = useRegisterHoliday();
-  const { register, reset, handleSubmit } = useForm();
+  const { register, reset, handleSubmit, setValue, watch } = useForm({
+    defaultValues: {
+      year: defaultYear,
+      month: defaultMonth,
+      day: defaultDay,
+      name: "",
+    },
+  });
   const handleFormSubmitted: SubmitHandler<Inputs> = data => {
     const { year, month, day, name } = data;
     const holiday: IHoliday = {
@@ -44,11 +53,22 @@ export default function HolidayRegisterDialog() {
     };
     mutate(holiday);
     resetRegisterDialog();
-    reset(registerDialogInitailState());
+    reset();
   };
-  const handleCancelClicked = () => {
+  const handleCancelClicked = useCallback(() => {
     resetRegisterDialog();
-    reset(registerDialogInitailState());
+    reset();
+  }, [resetRegisterDialog, reset]);
+  const handleYearChanged = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue("year", event.target.value);
+    setValue("day", "01");
+  };
+  const handleMonthChanged = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue("month", event.target.value);
+    setValue("day", "01");
+  };
+  const handleDayChanged = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue("day", event.target.value);
   };
 
   return (
@@ -57,11 +77,14 @@ export default function HolidayRegisterDialog() {
       <hr />
       <br />
       <form onSubmit={handleSubmit(handleFormSubmitted)}>
-        <FormYearSelect {...register("year", { required: true })} />
+        <FormYearSelect {...register("year", { required: true, onChange: handleYearChanged })} />
         <span>&nbsp;年&nbsp;</span>
-        <FormMonthSelect {...register("month", { required: true })} />
+        <FormMonthSelect {...register("month", { required: true, onChange: handleMonthChanged })} />
         <span>&nbsp;月&nbsp;</span>
-        <FormDaySelect {...register("day", { required: true })} />
+        <FormDaySelect
+          {...{ year: watch("year"), month: watch("month") }}
+          {...register("day", { required: true, onChange: handleDayChanged })}
+        />
         <span>&nbsp;日&nbsp;</span>
         <br />
         <br />
