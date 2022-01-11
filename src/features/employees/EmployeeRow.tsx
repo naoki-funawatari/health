@@ -1,8 +1,9 @@
 import React from "react";
 import { IEmployee } from "@/interfaces/interfaces";
 
-const EmployeeRow = React.memo((props: IEmployee) => {
+export default React.memo(function EmployeeRow(props: IEmployee) {
   const { bu, ka, rank, no, name } = props;
+
   return (
     <tr>
       <td>{bu}</td>
@@ -13,5 +14,3 @@ const EmployeeRow = React.memo((props: IEmployee) => {
     </tr>
   );
 });
-
-export default EmployeeRow;

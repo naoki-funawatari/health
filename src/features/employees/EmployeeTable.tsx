@@ -3,7 +3,7 @@ import { employeesState } from "@/stores/stores";
 import { useFetchEmployees } from "@/hooks/hooks";
 import EmployeeRow from "@/features/employees/EmployeeRow";
 
-const EmployeeTable = () => {
+export default function EmployeeTable() {
   useFetchEmployees();
   const employees = useRecoilValue(employeesState);
 
@@ -28,6 +28,4 @@ const EmployeeTable = () => {
       </table>
     </>
   );
-};
-
-export default EmployeeTable;
+}
