@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { employeesState } from "@/stores/stores";
 import { useFetchEmployees } from "@/hooks/hooks";
-import EmployeeRow from "@/features/employees/EmployeeRow";
+import EmployeeRow from "@/features/employees/list/EmployeeRow";
 
 export default function EmployeeTable() {
   useFetchEmployees();
