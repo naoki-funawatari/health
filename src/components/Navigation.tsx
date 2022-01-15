@@ -15,6 +15,16 @@ const Navigation = () => (
     <p>
       <Link to="/holidays">祝祭日一覧</Link>
     </p>
+    <h3>Maintenance</h3>
+    <p>
+      <Link to="/maintenance/bu">部</Link>
+    </p>
+    <p>
+      <Link to="/maintenance/ka">課</Link>
+    </p>
+    <p>
+      <Link to="/maintenance/rank">職位</Link>
+    </p>
   </nav>
 );
 
